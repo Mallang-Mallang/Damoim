@@ -1,38 +1,60 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 2022 Daelim capstone
 
-## Getting Started
+# [capstone]()
 
-First, run the development server:
+## 🖥️ Collabrator
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+<table align="center">
+  <tr>
+    <td align="center"><a href="https://github.com/Mallang-Mallang"><img src="https://avatars.githubusercontent.com/u/70959328?v=4" width="100px;" alt=""/><br /><sub><b>201730136 최형준<br>Mallang-Mallang</b></sub></a><br />🦄Front-End</td>
+    <td align="center"><a href="https://github.com/UBamtol"><img src="https://avatars.githubusercontent.com/u/98325285?v=4" width="100px;" alt="이미지"/><br /><sub><b>201830121 유인준<br>UBamtol</b></sub></a><br />🦄Front-End</td>
+    <td align="center"><a href="https://github.com/leegeonho1"><img src="https://avatars.githubusercontent.com/u/118963538?v=4" width="100px;" alt="이미지"/><br /><sub><b>201930419 이건호<br>Leegeonho</b></sub></a><br />🦄Front-End</td>
+  </tr>
+</table>
+
+## Convention
+
+- 모든 components 는 React Arrow Function Component 로 작성한다.
+- 컴포넌트 내부에서 style 관련 요소들은 하단에 위치 시킨다 ( 핵심 로직을 상단에 위치 )
+- components 의 파일명은 UpperCamelCase로 작성
+- .ts 와 .tsx 의 구분은 html 태그 유무로 구분한다.
+
+## Stack
+
+- Next.Js
+- React
+- Typescript
+- NextAuth ( kakao, google )
+- Axios ( fetch로 대체 가능 )
+- Tailwindcss
+- heroicons
+
+## Folder path
+
+```js
+./components
+	|-/commons	  //공통 컴포넌트 정의 ex) Button, Container
+
+./pages             //Client Side pages
+	|-/api            //Server Side
+
+./public
+	|-/assets         //프로젝트에서 사용되는 정적이미지 파일을 저장한다.
+          //Prisma 파일 작성
+./styles            //global style 작성
+.tailwind.config.js //tailwindcss 설정 작성
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Before Starting
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+### 의존성 패키지 설치
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+```
+yarn
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### 개발 서버 시작
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```
+yarn dev
+```
