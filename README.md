@@ -1,6 +1,7 @@
-# 2022 Daelim capstone
+# 2022 Daelim capstone Damoim
 
-# [capstone]()
+## 🕵️‍♀️About Project
+대림대학교 웹프로젝트 현장개선 캡스톤 위치기반 모임 매칭 웹사이트 다모임
 
 ## 🖥️ Collabrator
 
@@ -9,52 +10,8 @@
     <td align="center"><a href="https://github.com/Mallang-Mallang"><img src="https://avatars.githubusercontent.com/u/70959328?v=4" width="100px;" alt=""/><br /><sub><b>201730136 최형준<br>Mallang-Mallang</b></sub></a><br />🦄Front-End</td>
     <td align="center"><a href="https://github.com/UBamtol"><img src="https://avatars.githubusercontent.com/u/98325285?v=4" width="100px;" alt="이미지"/><br /><sub><b>201830121 유인준<br>UBamtol</b></sub></a><br />🦄Front-End</td>
     <td align="center"><a href="https://github.com/leegeonho1"><img src="https://avatars.githubusercontent.com/u/118963538?v=4" width="100px;" alt="이미지"/><br /><sub><b>201930419 이건호<br>Leegeonho</b></sub></a><br />🦄Front-End</td>
+    <td align="center"><a href="https://github.com/jinseonKang"><img src="https://avatars.githubusercontent.com/u/126742685?v=4" width="100px;" alt="이미지"/><br /><sub><b>202130301 강진선<br>jinseonKang</b></sub></a><br />🦄Front-End</td>
+    <td align="center"><a href="https://github.com/dongjusin123"><img src="https://avatars.githubusercontent.com/u/126742676?v=4" width="100px;" alt="이미지"/><br /><sub><b>202130310 신동주<br>dongjusin123</b></sub></a><br />UI/UX</td>
+    <td align="center"><a href="https://github.com/mareto1017"><img src="https://avatars.githubusercontent.com/u/114148569?v=4" width="100px;" alt="이미지"/><br /><sub><b>201930110 박상진<br>mareto1017</b></sub></a><br />Back-End</td>
   </tr>
 </table>
-
-## Convention
-
-- 모든 components 는 React Arrow Function Component 로 작성한다.
-- 컴포넌트 내부에서 style 관련 요소들은 하단에 위치 시킨다 ( 핵심 로직을 상단에 위치 )
-- components 의 파일명은 UpperCamelCase로 작성
-- .ts 와 .tsx 의 구분은 html 태그 유무로 구분한다.
-
-## Stack
-
-- Next.Js
-- React
-- Typescript
-- NextAuth ( kakao, google )
-- Axios ( fetch로 대체 가능 )
-- Tailwindcss
-- heroicons
-
-## Folder path
-
-```js
-./components
-	|-/commons	  //공통 컴포넌트 정의 ex) Button, Container
-
-./pages             //Client Side pages
-	|-/api            //Server Side
-
-./public
-	|-/assets         //프로젝트에서 사용되는 정적이미지 파일을 저장한다.
-          //Prisma 파일 작성
-./styles            //global style 작성
-.tailwind.config.js //tailwindcss 설정 작성
-```
-
-## Before Starting
-
-### 의존성 패키지 설치
-
-```
-yarn
-```
-
-### 개발 서버 시작
-
-```
-yarn dev
-```
