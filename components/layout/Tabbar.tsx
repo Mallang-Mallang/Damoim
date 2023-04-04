@@ -1,7 +1,6 @@
 import {
   HomeIcon,
-  StarIcon,
-  MagnifyingGlassIcon,
+  MapPinIcon,
   UserGroupIcon,
   UserIcon,
 } from '@heroicons/react/24/outline';
@@ -15,7 +14,7 @@ const Footer = () => {
     {
       id: 1,
       route: '/Location',
-      icon: MagnifyingGlassIcon,
+      icon: MapPinIcon,
       tabbarName: '위치',
     },
     { id: 2, route: '/Meeting', icon: UserGroupIcon, tabbarName: '모임' },
@@ -27,18 +26,18 @@ const Footer = () => {
         const ActiveComponents = v.icon;
         return (
           <Link
-            className="flex flex-col justify-center items-center hover:text-orange-500 cursor-pointer"
+            className="flex flex-col justify-center items-center hover:text-sky-700 cursor-pointer"
             href={v.route}
             key={i}
           >
             <ActiveComponents
               className={`w-5 h-5 ${
-                router.pathname === `${v.route}` ? 'text-orange-500' : null
+                router.pathname === `${v.route}` ? 'text-sky-700' : null
               }`}
             />
             <h4
               className={`mt-[2px] ${
-                router.pathname === `${v.route}` ? 'text-orange-500' : null
+                router.pathname === `${v.route}` ? 'text-sky-700' : null
               }`}
             >
               {v.tabbarName}
