@@ -21,7 +21,7 @@ const Footer = () => {
     { id: 3, route: '/mypage', icon: UserIcon, tabbarName: '마이페이지' },
   ];
   return (
-    <div className="flex justify-around w-[500px] h-[65px] fixed bottom-0 left-0 right-0 ml-auto mr-auto z-10 border-t border-gray-400 bg-white">
+    <div className="flex justify-around w-[500px] h-[65px] fixed bottom-0 z-10 border-t border-gray-400 bg-white">
       {tabbarList.map((v, i) => {
         const ActiveComponents = v.icon;
         return (
