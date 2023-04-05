@@ -13,12 +13,12 @@ const Footer = () => {
     { id: 0, route: '/', icon: HomeIcon, tabbarName: '홈' },
     {
       id: 1,
-      route: '/Location',
+      route: '/location',
       icon: MapPinIcon,
       tabbarName: '위치',
     },
-    { id: 2, route: '/Meeting', icon: UserGroupIcon, tabbarName: '모임' },
-    { id: 3, route: '/Mypage', icon: UserIcon, tabbarName: '마이페이지' },
+    { id: 2, route: '/meeting', icon: UserGroupIcon, tabbarName: '모임' },
+    { id: 3, route: '/mypage', icon: UserIcon, tabbarName: '마이페이지' },
   ];
   return (
     <div className="flex justify-around w-[500px] h-[65px] fixed bottom-0 left-0 right-0 ml-auto mr-auto z-10 border-t border-gray-400 bg-white">
