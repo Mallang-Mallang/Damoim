@@ -25,8 +25,9 @@ const location = () => {
           공연
         </div>
       </div>
-
-      <Map latitude={37.403331351471266} longitude={126.93067769029214} />
+      <div className="w-full h-[550px]">
+        <Map latitude={37.403331351471266} longitude={126.93067769029214} />
+      </div>
     </div>
   );
 };
