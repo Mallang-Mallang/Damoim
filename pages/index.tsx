@@ -1,5 +1,5 @@
+import Map from '@/components/common/Map';
 import Head from 'next/head';
-import Map from '@/components/Map';
 
 export default function Home() {
   return (
