@@ -4,7 +4,7 @@ import Footer from '@/components/layout/Tabbar';
 export default function NotFound() {
   return (
     <div className="h-full flex justify-center items-center">
-      <Header />
+      <Header path="/" />
       <b>404 Error - 요청하신 페이지를 찾을 수 없습니다.</b>
       <Footer />
     </div>

@@ -25,11 +25,11 @@ const Find = () => {
         </h1>
       </div>
       <div className="flex flex-col gap-y-5">
-        <div className="grid grid-cols-3 grid-rows-2 gap-y-5">
+        <div className="grid grid-cols-3 grid-rows-2 gap-y-5 gap-x-5">
           {btn.map((item, index) => (
             <button
               key={index}
-              className={`flex flex-col justify-center items-center rounded-xl py-2 ${
+              className={`flex flex-col justify-center items-center rounded-xl py-2 hover:bg-sky-400 hover:text-slate-50  active:bg-sky-500 ${
                 item.selected && 'bg-sky-400'
               } `}
               onClick={() => handleSelect(item.id)}

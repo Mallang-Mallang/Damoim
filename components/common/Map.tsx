@@ -36,7 +36,7 @@ function Map({ latitude, longitude }: MapProps) {
     return () => mapScript.removeEventListener('load', onLoadKakaoMap);
   }, [latitude, longitude]);
   return (
-    <div id="map" className="w-[500px] h-full border border-green-500"></div>
+    <div id="map" className="w-full h-[550px] border border-green-500"></div>
   );
 }
 
