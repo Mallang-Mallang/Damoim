@@ -40,7 +40,6 @@
 
 ./public
 	|-/assets         //프로젝트에서 사용되는 정적이미지 파일을 저장한다.
-          //Prisma 파일 작성
 ./styles            //global style 작성
 .tailwind.config.js //tailwindcss 설정 작성
 ```
