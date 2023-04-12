@@ -1,32 +1,38 @@
 import Map from '@/components/common/Map';
-import React from 'react';
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import { MagnifyingGlassIcon, MapPinIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
+import { ReactElement } from 'react';
 
 const meeting = () => {
   return (
-    <div className="flex-col justify-center items-center h-full">
-      <div className="w-full h-[80px] flex justify-around items-center bg-white">
-        <ChevronLeftIcon className="w-[50px] h-[50px] cursor-pointer hover:text-blue-700" />
-        <h1 className="text-[32px] font-bold">대림대학교</h1>
-        <ChevronRightIcon className="w-[50px] h-[50px] cursor-pointer hover:text-blue-700" />
-      </div>
-
-      <div className="w-full h-[128px] flex justify-around items-center bg-white">
-        <div className="w-[100px] h-[50px] flex justify-center items-center text-white font-bold text-[18px] bg-blue-500 rounded-full">
-          카페
+    <div className="w-full h-full px-4 py-5 overflow-auto">
+      <div className="inner flex flex-col gap-8">
+        <h1 className="text-xl font-semibold">
+          모임장소를 <br />
+          설정해주세요.
+        </h1>
+        <div className="relative w-full bg-transparent">
+          <MagnifyingGlassIcon className="absolute w-5 h-5 top-1/4 left-2" />
+          <input
+            type="text"
+            placeholder="도로명, 건물명 또는 지번으로 검색"
+            className="w-full pl-8 py-2 pr-2 rounded-3xl bg-gray-200 placeholder-gray-400"
+          />
         </div>
-        <div className="w-[100px] h-[50px] flex justify-center items-center text-white font-bold text-[18px] bg-blue-500 rounded-full">
-          영화
+        <div className="w-full h-64 bg-gray-200 overflow-clip">
+          {' '}
+          <Map latitude={37.403331351471266} longitude={126.93067769029214} />
         </div>
-        <div className="w-[100px] h-[50px] flex justify-center items-center text-white font-bold text-[18px] bg-blue-500 rounded-full">
-          전시
-        </div>
-        <div className="w-[100px] h-[50px] flex justify-center items-center text-white font-bold text-[18px] bg-blue-500 rounded-full">
-          공연
-        </div>
-      </div>
-      <div className="w-full h-[550px]">
-        <Map latitude={37.403331351471266} longitude={126.93067769029214} />
+        <br />
+        <button className="relative w-full py-2 px-2 rounded-3xl border-solid border-2 border-sky-500 text-sky-500 font-semibold hover:bg-sky-500 hover:text-white hover:border-white">
+          <MapPinIcon className="absolute w-5 h-5" />
+          현위치로 주소 설정
+        </button>
+        <Link href="./">
+          <button className="relative w-full py-2 px-2 rounded-3xl border-solid border-2 border-sky-500 text-sky-500 font-semibold hover:bg-sky-500 hover:text-white hover:border-white">
+            다음
+          </button>
+        </Link>
       </div>
     </div>
   );
