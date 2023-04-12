@@ -28,7 +28,7 @@ const meeting = () => {
           <MapPinIcon className="absolute w-5 h-5" />
           현위치로 주소 설정
         </button>
-        <Link href="./">
+        <Link href="./meeting2">
           <button className="relative w-full py-2 px-2 rounded-3xl border-solid border-2 border-sky-500 text-sky-500 font-semibold hover:bg-sky-500 hover:text-white hover:border-white">
             다음
           </button>
