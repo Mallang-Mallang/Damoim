@@ -5,7 +5,7 @@ import { ReactElement } from 'react';
 
 const Location = () => {
   return (
-    <div className="w-full h-full py-16 px-4 box-border">
+    <div className="w-full h-full px-4 py-5 overflow-auto">
       <div className="inner flex flex-col gap-8">
         <h1 className="text-xl font-semibold">
           출발위치를 <br />
