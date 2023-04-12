@@ -10,16 +10,10 @@ declare global {
   }
 }
 
-interface MyAppProps extends AppProps {
-  Component: NextPageWithLayout;
-}
-
-type NextPageWithLayout = NextPage & {
-  getLayout?: (page: React.ReactElement) => React.ReactNode;
-};
-
-export default function App({ Component, pageProps }: MyAppProps) {
-  const getLayout = Component.getLayout ?? ((page) => <Layout>{page}</Layout>);
-
-  return getLayout(<Component {...pageProps} />);
+export default function App({ Component, pageProps }: AppProps) {
+  return (
+    <Layout>
+      <Component {...pageProps} />
+    </Layout>
+  );
 }

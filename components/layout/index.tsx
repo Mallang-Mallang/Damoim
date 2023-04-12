@@ -8,7 +8,7 @@ const Layout = ({ children }: PropsWithChildren) => {
   return (
     <div className="flex justify-center w-full h-screen bg-zinc-50 overflow-auto">
       <Header path={router.pathname} />
-      <div className="w-[500px] h-full pt-[60px] border border-pink-500">
+      <div className="w-[500px] h-full pt-[60px] border border-pink-500 bg-white">
         {children}
       </div>
       <Tabbar />

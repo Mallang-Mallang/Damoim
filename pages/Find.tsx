@@ -1,4 +1,3 @@
-import LayoutLocation from '@/components/layout/LayoutLocation';
 import { ReactElement, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -8,7 +7,7 @@ const Find = () => {
 
   const handleSelect = (id: number) => {
     const newBtn = btn.map((item) => {
-      if (item.id === id) {
+      if (item.id === id || item.selected) {
         item.selected = !item.selected;
       }
       return item;
@@ -59,10 +58,6 @@ const Find = () => {
   );
 };
 export default Find;
-
-Find.getLayout = function getLayout(page: ReactElement) {
-  return <LayoutLocation>{page}</LayoutLocation>;
-};
 
 const txp = [
   {
