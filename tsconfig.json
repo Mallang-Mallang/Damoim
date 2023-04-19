@@ -22,7 +22,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "components/layout/Header.jsx"
+    "components/layout/Header.jsx",
+    "components/MyCalendar.jsx"
   ],
   "exclude": ["node_modules"]
 }
