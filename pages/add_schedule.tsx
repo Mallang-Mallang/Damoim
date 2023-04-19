@@ -26,12 +26,12 @@ const Location = () => {
         <div>
           <input
             type="text"
-            placeholder="집 추가"
+            placeholder="모임명"
             className="w-full bg-transparent placeholder-gray-700 py-2 px-2 mb-2 border-b-2 border-gray-700 focus:outline-none focus:border-b-2 focus:border-sky-500"
           />
           <input
             type="text"
-            placeholder="회사 추가"
+            placeholder="모임 시간"
             className="w-full bg-transparent placeholder-gray-700 py-2 px-2 border-b-2 border-gray-700 focus:outline-none focus:border-b-2 focus:border-sky-500"
           />
         </div>

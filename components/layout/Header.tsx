@@ -4,19 +4,23 @@ import {
   ChevronLeftIcon,
   ArrowUpTrayIcon,
 } from '@heroicons/react/24/outline';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 interface HaederProps {
   path: string;
 }
 
 const Header = ({ path }: HaederProps) => {
+  const router = useRouter();
+
   const haederType = () => {
     if (path === '/location') {
       return (
         <>
-          <ChevronLeftIcon className="w-[30px] h-[30px] cursor-pointer hover:text-blue-700 ml-5" />
-          <ArrowUpTrayIcon className="w-[30px] h-[30px] cursor-pointer hover:text-blue-700 mr-5" />
+          <ChevronLeftIcon
+            className="w-[30px] h-[30px] cursor-pointer hover:text-blue-700 ml-5"
+            onClick={router.back}
+          />
         </>
       );
     } else if (
@@ -27,14 +31,15 @@ const Header = ({ path }: HaederProps) => {
       return (
         <div className="flex flex-col w-full">
           <div className="w-full flex justify-around items-center py-3">
-            <Link href="/">
-              <ChevronLeftIcon className="w-[30px] h-[30px] cursor-pointer hover:text-blue-700 ml-5" />
-            </Link>
+            <ChevronLeftIcon
+              className="w-[30px] h-[30px] cursor-pointer hover:text-blue-700 ml-5"
+              onClick={router.back}
+            />
             <h1 className="w-full text-center">맞춤분석</h1>
             <div className="flex-none w-[30px] mr-5"></div>
           </div>
           <div
-            className={`border-2 border-sky-500 ${
+            className={`duration-300 border-2 border-sky-500 ${
               path === '/add_schedule'
                 ? 'w-1/3'
                 : path === '/find'

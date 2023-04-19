@@ -19,7 +19,7 @@ const Find = () => {
     <div className="px-5 h-910px bg-white py-16 box-border">
       <div className="flex justify-between items-center mb-[105px]">
         <h1 className="text-[30px] font-semibold">
-          주로 사용하는 교통수단을
+          주로 사용하는 이동수단을
           <br />
           설정해주세요.
         </h1>
