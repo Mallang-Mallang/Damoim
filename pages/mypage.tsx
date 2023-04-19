@@ -13,7 +13,7 @@ export default function Mypage() {
 
       <div className="px-5 h-[910px] bg-white">
         <div className="flex justify-between items-center mb-[105px]">
-          <h1 className="text-[30px] font-semibold">전체 모임</h1>
+          <h1 className="text-[30px] font-semibold">나의 모임</h1>
           <Link href="./add_schedule">
             <div className="flex border-2 border-[#43ABE5] text-[#43ABE5] font-semibold w-[120px] h-[40px] rounded-full justify-center items-center">
               일정 추가
