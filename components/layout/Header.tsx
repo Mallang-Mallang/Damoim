@@ -35,7 +35,7 @@ const Header = ({ path }: HaederProps) => {
               className="w-[30px] h-[30px] cursor-pointer hover:text-blue-700 ml-5"
               onClick={router.back}
             />
-            <h1 className="w-full text-center">맞춤분석</h1>
+            <h1 className="w-full text-center">일정추가</h1>
             <div className="flex-none w-[30px] mr-5"></div>
           </div>
           <div
@@ -44,7 +44,7 @@ const Header = ({ path }: HaederProps) => {
                 ? 'w-1/3'
                 : path === '/find'
                 ? 'w-2/3'
-                : 'w-3/3'
+                : 'w-full'
             }`}
           ></div>
         </div>

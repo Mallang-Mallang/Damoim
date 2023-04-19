@@ -15,10 +15,10 @@ const Find = () => {
   };
 
   return (
-    <div className="px-5 h-910px bg-white py-16 box-border">
-      <div className="flex justify-between items-center mb-[105px]">
+    <div className="px-5 h-910px bg-white py-5 box-border">
+      <div className="flex justify-between items-center mb-[50px]">
         <h1 className="text-[30px] font-semibold">
-          선호하는 스타일을
+          모임 카테고리를
           <br />
           선택해주세요.
         </h1>

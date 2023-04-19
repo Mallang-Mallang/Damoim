@@ -16,12 +16,12 @@ const Find = () => {
   };
 
   return (
-    <div className="px-5 h-910px bg-white py-16 box-border">
-      <div className="flex justify-between items-center mb-[105px]">
+    <div className="px-5 h-910px bg-white py-5 box-border">
+      <div className="flex justify-between items-center mb-[50px]">
         <h1 className="text-[30px] font-semibold">
-          주로 사용하는 이동수단을
+          이동수단을
           <br />
-          설정해주세요.
+          선택해주세요.
         </h1>
       </div>
       <div className="flex flex-col gap-y-5">

@@ -29,13 +29,6 @@ function Map({ latitude, longitude }: MapProps) {
           position: markerPosition,
         });
 
-        map.setZoomable(false);
-
-        var zoomControl = new window.kakao.maps.ZoomControl();
-
-        // 지도의 우측에 확대 축소 컨트롤을 추가한다
-        map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
-
         marker.setMap(map);
       });
     };
