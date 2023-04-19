@@ -21,41 +21,51 @@ export default function Mypage() {
           </Link>
         </div>
         <div className="w-full flex flex-wrap justify-between gap-y-[10px]">
-          <div className="w-[456px] h-[143px] bg-[#FFF0EA] rounded-[40px] p-5">
-            <div className="test-xl">11:00am</div>
-            <div className="py-[10px] font-semibold text-xl">
-              스터디 그룹 모임
+          <Link href="">
+            <div className="w-[456px] h-[143px] bg-[#FFF0EA] rounded-[40px] p-5">
+              <div className="test-xl">11:00am</div>
+              <div className="py-[10px] font-semibold text-xl">
+                스터디 그룹 모임
+              </div>
+              <div className="test-xl">할리스 합정역점</div>
             </div>
-            <div className="test-xl">할리스 합정역점</div>
-          </div>
-          <div className="w-[456px] h-[143px] bg-[#EAF7FF] rounded-[40px] p-5">
-            <div className="test-xl">11:00am</div>
-            <div className="py-[10px] font-semibold text-xl">
-              스터디 그룹 모임
+          </Link>
+          <Link href="">
+            <div className="w-[456px] h-[143px] bg-[#EAF7FF] rounded-[40px] p-5">
+              <div className="test-xl">11:00am</div>
+              <div className="py-[10px] font-semibold text-xl">
+                스터디 그룹 모임
+              </div>
+              <div className="test-xl">할리스 합정역점</div>
             </div>
-            <div className="test-xl">할리스 합정역점</div>
-          </div>
-          <div className="w-[456px] h-[143px] bg-[#FFF0EA] rounded-[40px] p-5">
-            <div className="test-xl">11:00am</div>
-            <div className="py-[10px] font-semibold text-xl">
-              스터디 그룹 모임
+          </Link>
+          <Link href="">
+            <div className="w-[456px] h-[143px] bg-[#FFF0EA] rounded-[40px] p-5">
+              <div className="test-xl">11:00am</div>
+              <div className="py-[10px] font-semibold text-xl">
+                스터디 그룹 모임
+              </div>
+              <div className="test-xl">할리스 합정역점</div>
             </div>
-            <div className="test-xl">할리스 합정역점</div>
-          </div>
-          <div className="w-[456px] h-[143px] bg-[#EAF7FF] rounded-[40px] p-5">
-            <div className="test-xl">11:00am</div>
-            <div className="py-[10px] font-semibold text-xl">
-              스터디 그룹 모임
+          </Link>
+          <Link href="">
+            <div className="w-[456px] h-[143px] bg-[#EAF7FF] rounded-[40px] p-5">
+              <div className="test-xl">11:00am</div>
+              <div className="py-[10px] font-semibold text-xl">
+                스터디 그룹 모임
+              </div>
+              <div className="test-xl">할리스 합정역점</div>
             </div>
-            <div className="test-xl">할리스 합정역점</div>
-          </div>
-          <div className="w-[456px] h-[143px] bg-[#FFF0EA] rounded-[40px] p-5">
-            <div className="test-xl">11:00am</div>
-            <div className="py-[10px] font-semibold text-xl">
-              스터디 그룹 모임
+          </Link>
+          <Link href="">
+            <div className="w-[456px] h-[143px] bg-[#FFF0EA] rounded-[40px] p-5">
+              <div className="test-xl">11:00am</div>
+              <div className="py-[10px] font-semibold text-xl">
+                스터디 그룹 모임
+              </div>
+              <div className="test-xl">할리스 합정역점</div>
             </div>
-            <div className="test-xl">할리스 합정역점</div>
-          </div>
+          </Link>
         </div>
       </div>
     </>
