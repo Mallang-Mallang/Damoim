@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import 'react-calendar/dist/Calendar.css';
 import dynamic from 'next/dynamic';
 import styled from 'styled-components';
+import { ArrowLongRightIcon } from '@heroicons/react/24/solid';
 
 const Calendar = dynamic(() => import('react-calendar'), {
   ssr: false,
@@ -18,9 +19,7 @@ const CalendarContainer = styled.div`
     font-weight: bold;
   }
   .react-calendar__month-view__weekdays {
-    div:nth-child(6) {
-      color: #4f94d5;
-    }
+    div:nth-child(6),
     div:nth-child(7) {
       color: #ff4a4a;
     }
@@ -29,14 +28,14 @@ const CalendarContainer = styled.div`
     display: flex;
     justify-content: space-between;
   }
-  .react-calendar__month-view__days__day--weekend {
+  /* .react-calendar__month-view__days__day--weekend {
     button:nth-child(1) {
       color: #4f94d5;
     }
     button:nth-child(2) {
-      color: #ff4a4a;
     }
-  }
+    color: #ff4a4a;
+  } */
   .react-calendar__month-view__weekdays__weekday > abbr {
     text-decoration-line: none;
   }
@@ -129,6 +128,7 @@ const CalendarContainer = styled.div`
 
 const MyCalendar = () => {
   const [value, onChange] = useState();
+  const [isClicked, setIsClicked] = useState(false);
   const [mark, setMark] = useState(['2023-04-23', '2023-04-21']);
 
   useEffect(() => {
@@ -136,31 +136,91 @@ const MyCalendar = () => {
   }, []);
 
   return (
-    <div className="px-5 mt-[50px] ">
-      <CalendarContainer>
-        <Calendar
-          onChange={onChange}
-          value={value}
-          formatDay={(locale, date) => moment(date).format('DD')}
-          tileContent={({ date, view }) => {
-            // 날짜 타일에 컨텐츠 추가하기 (html 태그)
-            // 추가할 html 태그를 변수 초기화
-            let html = [];
-            // 현재 날짜가 post 작성한 날짜 배열(mark)에 있다면, dot div 추가
-            if (mark.find((x) => x === moment(date).format('YYYY-MM-DD'))) {
-              html.push(<div className="dot"></div>);
-            }
-            // 다른 조건을 주어서 html.push 에 추가적인 html 태그를 적용할 수 있음.
-            return (
-              <>
-                <div className="flex justify-center items-center absoluteDiv">
-                  {html}
-                </div>
-              </>
-            );
-          }}
-        />
-      </CalendarContainer>
+    <div className="overflow-hidden">
+      <div className="px-5 mt-[50px]">
+        <CalendarContainer>
+          <Calendar
+            onChange={onChange}
+            value={value}
+            formatDay={(locale, date) => moment(date).format('DD')}
+            tileContent={({ date, view }) => {
+              // 날짜 타일에 컨텐츠 추가하기 (html 태그)
+              // 추가할 html 태그를 변수 초기화
+              let html = [];
+              // 현재 날짜가 post 작성한 날짜 배열(mark)에 있다면, dot div 추가
+              if (mark.find((x) => x === moment(date).format('YYYY-MM-DD'))) {
+                html.push(<div className="dot"></div>);
+              }
+              // 다른 조건을 주어서 html.push 에 추가적인 html 태그를 적용할 수 있음.
+              return (
+                <>
+                  <div className="flex justify-center items-center absoluteDiv">
+                    {html}
+                  </div>
+                </>
+              );
+            }}
+          />
+        </CalendarContainer>
+      </div>
+      <div
+        className={`w-full shadow-top-xl p-5 pb-0 bg-white z-10 duration-300 overflow-scroll ${
+          isClicked ? '-translate-y-80 h-[430px] mb-[-320px]' : 'h-[110px]'
+        }`}
+      >
+        <div className="flex justify-between items-center">
+          <div
+            className="font-semibold text-[30px] hover:cursor-pointer"
+            onClick={() => setIsClicked(!isClicked)}
+          >
+            전체모임
+          </div>
+          <div className="border border-[#43ABE5] text-[#43ABE5] w-[140px] h-10 rounded-full flex justify-center items-center font-semibold hover:cursor-pointer">
+            일정추가
+          </div>
+        </div>
+        <div className="text-gray-500 my-5 flex justify-center">
+          {moment(value).format('YYYY년 MM월 DD일')}
+        </div>
+        {/* 더미 1 */}
+        <div className="border w-full h-[145px] bg-[#EAF7FF] rounded-[40px] px-5 py-11 mb-3 flex justify-between items-center text-lg">
+          <div>1:00pm</div>
+          <div className="mx-3 w-full">
+            <div className="font-semibold">스터디 모임</div>
+            <div>할리스 합정역</div>
+          </div>
+          <ArrowLongRightIcon width={30} height={30} />
+        </div>
+
+        {/* 더미 2 */}
+        <div className="border w-full h-[145px] bg-[#FFF0EA] rounded-[40px] px-5 py-11 mb-3 flex justify-between items-center text-lg">
+          <div>1:00pm</div>
+          <div className="mx-3 w-full">
+            <div className="font-semibold">스터디 모임</div>
+            <div>할리스 합정역</div>
+          </div>
+          <ArrowLongRightIcon width={30} height={30} />
+        </div>
+        {/* 더미 1 */}
+        <div className="border w-full h-[145px] bg-[#EAF7FF] rounded-[40px] px-5 py-11 mb-3 flex justify-between items-center text-lg">
+          <div>1:00pm</div>
+          <div className="mx-3 w-full">
+            <div className="font-semibold">스터디 모임</div>
+            <div>할리스 합정역</div>
+          </div>
+          <ArrowLongRightIcon width={30} height={30} />
+        </div>
+
+        {/* 더미 2 */}
+        <div className="border w-full h-[145px] bg-[#FFF0EA] rounded-[40px] px-5 py-11 mb-3 flex justify-between items-center text-lg">
+          <div>1:00pm</div>
+          <div className="mx-3 w-full">
+            <div className="font-semibold">스터디 모임</div>
+            <div>할리스 합정역</div>
+          </div>
+          <ArrowLongRightIcon width={30} height={30} />
+        </div>
+      </div>
     </div>
   );
 };
