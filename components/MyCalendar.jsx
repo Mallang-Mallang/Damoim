@@ -136,7 +136,7 @@ const MyCalendar = () => {
   }, []);
 
   return (
-    <div className="overflow-hidden">
+    <div className="h-full overflow-hidden flex flex-col justify-between">
       <div className="px-5 mt-[50px]">
         <CalendarContainer>
           <Calendar
@@ -164,8 +164,10 @@ const MyCalendar = () => {
         </CalendarContainer>
       </div>
       <div
-        className={`w-full shadow-top-xl p-5 pb-0 bg-white z-10 duration-300 overflow-scroll ${
-          isClicked ? '-translate-y-80 h-[430px] mb-[-320px]' : 'h-[110px]'
+        className={` w-full shadow-top-xl p-5 pb-0 bg-white z-10 duration-500 ${
+          isClicked
+            ? '-translate-y-80 h-[700px] mb-[-320px] overflow-scroll'
+            : 'h-[200px] overflow-hidden'
         }`}
       >
         <div className="flex justify-between items-center">
