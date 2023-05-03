@@ -164,10 +164,10 @@ const MyCalendar = () => {
         </CalendarContainer>
       </div>
       <div
-        className={` w-full shadow-top-xl p-5 pb-0 bg-white z-10 duration-500 ${
+        className={`w-full shadow-top-xl p-5 pb-0 bg-white z-10 duration-500  ${
           isClicked
             ? '-translate-y-80 h-[700px] mb-[-320px] overflow-scroll'
-            : 'h-[200px] overflow-hidden'
+            : 'h-[500px] overflow-hidden hover:mt-[-10px]'
         }`}
       >
         <div className="flex justify-between items-center">
