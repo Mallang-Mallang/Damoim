@@ -4,6 +4,7 @@ import 'react-calendar/dist/Calendar.css';
 import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 import { ArrowLongRightIcon } from '@heroicons/react/24/solid';
+import Link from 'next/link';
 
 const Calendar = dynamic(() => import('react-calendar'), {
   ssr: false,
@@ -177,9 +178,12 @@ const MyCalendar = () => {
           >
             전체모임
           </div>
-          <div className="border border-[#43ABE5] text-[#43ABE5] w-[140px] h-10 rounded-full flex justify-center items-center font-semibold hover:cursor-pointer">
+          <Link
+            href="./add_schedule"
+            className="border border-[#43ABE5] text-[#43ABE5] w-[140px] h-10 rounded-full flex justify-center items-center font-semibold hover:cursor-pointer"
+          >
             일정추가
-          </div>
+          </Link>
         </div>
         <div className="text-gray-500 my-5 flex justify-center">
           {moment(value).format('YYYY년 MM월 DD일')}
