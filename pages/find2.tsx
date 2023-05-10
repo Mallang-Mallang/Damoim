@@ -1,5 +1,6 @@
 import { ReactElement, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const Find = () => {
   const [btn, setBtn] = useState(txp);
@@ -45,11 +46,12 @@ const Find = () => {
             </button>
           ))}
         </div>
-        <button className="relative w-full py-2 bg-sky-400 rounded-xl">
-          <span className="text-cloud-500 font-semibold text-slate-50">
-            완료
-          </span>
-        </button>
+        <Link
+          href="./location"
+          className="flex justify-center items-center relative w-full py-2 bg-sky-400 rounded-xl text-cloud-500 font-semibold text-slate-50"
+        >
+          완료
+        </Link>
       </div>
     </div>
   );

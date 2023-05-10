@@ -5,6 +5,7 @@ import {
   ArrowUpTrayIcon,
 } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 interface HaederProps {
   path: string;
@@ -53,7 +54,9 @@ const Header = ({ path }: HaederProps) => {
       return (
         <>
           <MagnifyingGlassIcon className="w-[30px] h-[30px] cursor-pointer hover:text-blue-700 ml-5" />
-          <BellIcon className="w-[30px] h-[30px] cursor-pointer hover:text-blue-700 mr-5" />
+          <Link href="./notice">
+            <BellIcon className="w-[30px] h-[30px] cursor-pointer hover:text-blue-700 mr-5" />
+          </Link>
         </>
       );
     }
