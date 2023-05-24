@@ -35,7 +35,10 @@ public class Group {
     private User user;
 
     @Column(nullable = false)
-    private String location;
+    private Double longitude;
+
+    @Column(nullable = false)
+    private Double latitude;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = true, columnDefinition = "VARCHAR(255) DEFAULT 'ETC'")
@@ -59,7 +62,8 @@ public class Group {
         this.id=groupDto.getId();
         this.title = groupDto.getTitle();
         this.user = groupDto.getUser();
-        this.location = groupDto.getLocation();
+        this.longitude = groupDto.getlongitude();
+        this.latitude = groupDto.getlatitude();
         this.category = groupDto.getCategory();
         this.content = groupDto.getContent();
         this.groupMember = getGroupMember();

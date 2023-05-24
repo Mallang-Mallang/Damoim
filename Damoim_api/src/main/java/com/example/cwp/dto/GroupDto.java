@@ -22,7 +22,11 @@ public class GroupDto {
     private Long id;
     private String title;
     private User user;
-    private String location;
+
+    private Double longitude;
+
+    private Double latitude;
+
     private Category category;
     private String content;
     private List<GroupMemberDto> groupMemberDto;
@@ -34,7 +38,8 @@ public class GroupDto {
         this.id = group.getId();
         this.title = group.getTitle();
         this.user = group.getUser();
-        this.location = group.getLocation();
+        this.longitude = group.getlongitude();
+        this.latitude = group.getlatitude();
         this.category = group.getCategory();
         this.content = group.getContent();
         this.groupMemberDto = group.getGroupMember().stream()
