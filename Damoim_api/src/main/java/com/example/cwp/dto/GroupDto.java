@@ -38,8 +38,8 @@ public class GroupDto {
         this.id = group.getId();
         this.title = group.getTitle();
         this.user = group.getUser();
-        this.longitude = group.getlongitude();
-        this.latitude = group.getlatitude();
+        this.longitude = group.getLongitude();
+        this.latitude = group.getLatitude();
         this.category = group.getCategory();
         this.content = group.getContent();
         this.groupMemberDto = group.getGroupMember().stream()

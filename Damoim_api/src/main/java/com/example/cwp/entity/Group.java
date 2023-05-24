@@ -62,8 +62,8 @@ public class Group {
         this.id=groupDto.getId();
         this.title = groupDto.getTitle();
         this.user = groupDto.getUser();
-        this.longitude = groupDto.getlongitude();
-        this.latitude = groupDto.getlatitude();
+        this.longitude = groupDto.getLongitude();
+        this.latitude = groupDto.getLatitude();
         this.category = groupDto.getCategory();
         this.content = groupDto.getContent();
         this.groupMember = getGroupMember();
