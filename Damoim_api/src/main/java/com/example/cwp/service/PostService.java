@@ -34,7 +34,8 @@ public class PostService {
         Group group = groupRepository.findById(id).get();
         group.setTitle(groupDto.getTitle());
         group.setCategory(groupDto.getCategory());
-        group.setLocation(groupDto.getLocation());
+        group.setlongitude(groupDto.getLongitude());
+        group.setlatitude(groupDto.getLatitude());
         group.setContent(groupDto.getContent());
         group.setDate(groupDto.getDate());
         group.setTime(groupDto.getTime());
