@@ -13,7 +13,6 @@ import java.util.Optional;
 @Service
 public class PostService {
 
-    @Autowired
     private final GroupRepository groupRepository;
 
     public PostService(GroupRepository groupRepository) {

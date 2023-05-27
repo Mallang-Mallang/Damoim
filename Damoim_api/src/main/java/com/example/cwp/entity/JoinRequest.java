@@ -1,6 +1,8 @@
 package com.example.cwp.entity;
 
-import com.example.cwp.dto.GroupMemberDto;
+import com.example.cwp.dto.GroupDto;
+import com.example.cwp.dto.JoinRequestDto;
+import com.example.cwp.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +15,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class GroupMember {
+public class JoinRequest {
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
@@ -27,9 +29,13 @@ public class GroupMember {
     @JoinColumn(name = "groupid")
     private Group group;
 
-    public GroupMember(GroupMemberDto groupMemberDto) {
-        this.id = groupMemberDto.getId();
-        this.user = groupMemberDto.getUser();
-        this.group = groupMemberDto.getGroup();
+
+    public JoinRequest(JoinRequestDto joinRequestDto){
+        this.id = joinRequestDto.getId();
+        this.user = joinRequestDto.getUser();
+        this.group = joinRequestDto.getGroup();
     }
+
 }
+
+

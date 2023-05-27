@@ -2,12 +2,9 @@ package com.example.cwp.controller;
 
 import com.example.cwp.dto.Category;
 import com.example.cwp.dto.GroupDto;
-import com.example.cwp.dto.Transport;
 import com.example.cwp.entity.Group;
 import com.example.cwp.repository.GroupRepository;
-import com.example.cwp.service.PostService;
 import com.example.cwp.service.SearchService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -17,11 +14,14 @@ import java.util.List;
 @RestController
 public class SearchController {
 
-    @Autowired
-    private SearchService searchService;
+    private final SearchService searchService;
 
-    @Autowired
-    private GroupRepository groupRepository;
+    private final GroupRepository groupRepository;
+
+    public SearchController(SearchService searchService, GroupRepository groupRepository) {
+        this.searchService = searchService;
+        this.groupRepository = groupRepository;
+    }
 
 
     @GetMapping("/")
