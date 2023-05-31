@@ -6,7 +6,6 @@ import com.example.cwp.security.oauth.provider.GoogleUserInfo;
 import com.example.cwp.security.oauth.provider.KakaoUserInfo;
 import com.example.cwp.security.oauth.provider.NaverUserInfo;
 import com.example.cwp.security.oauth.provider.OAuth2UserInfo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -19,8 +18,11 @@ import java.util.Optional;
 @Service
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
-    @Autowired
     private UserRepository userRepository;
+
+    public PrincipalOauth2UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -60,11 +62,13 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         if (userOptional.isPresent()) {
             user = userOptional.get();
             user.setEmail(oAuth2UserInfo.getEmail());
+            user.setPicture(oAuth2UserInfo.getPicture());
             userRepository.save(user);
         } else {
             user = User.builder()
                     .name(oAuth2UserInfo.getName())
                     .email(oAuth2UserInfo.getEmail())
+                    .picture(oAuth2UserInfo.getPicture())
                     .provider(oAuth2UserInfo.getProvider())
                     .providerId(oAuth2UserInfo.getProviderId())
                     .build();
