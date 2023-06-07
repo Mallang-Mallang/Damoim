@@ -1,7 +1,10 @@
+import { signOut, useSession } from 'next-auth/react';
 import Head from 'next/head';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Mypage() {
+  const { data: session, status } = useSession();
   return (
     <>
       <Head>
@@ -11,18 +14,62 @@ export default function Mypage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="px-5 h-[910px] bg-white">
-        <div className="flex justify-between items-center mb-[105px]">
-          <h1 className="text-[30px] font-semibold">나의 모임</h1>
-          <Link href="./add_schedule">
-            <div className="flex border-2 border-[#43ABE5] text-[#43ABE5] font-semibold w-[120px] h-[40px] rounded-full justify-center items-center">
-              일정 추가
-            </div>
-          </Link>
+      <div className="h-[910px] bg-white">
+        {/* 프로필 */}
+        <div className="flex justify-between items-center px-5 py-3 sticky top-0 bg-[#f7f7f7] shadow-bottom-md">
+          <h1 className="text-2xl font-semibold">프로필</h1>
         </div>
-        <div className="w-full flex flex-wrap justify-between gap-y-[10px]">
-          <Link href="">
-            <div className="w-[456px] h-[143px] bg-[#FFF0EA] rounded-[40px] p-5">
+        <div className="flex justify-between items-center mx-5 py-3">
+          <div className="flex items-center space-x-3">
+            <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
+              <Image
+                src={session?.user?.image!}
+                width={50}
+                height={50}
+                alt="profile"
+              />
+            </div>
+            <div>
+              <div className="font-semibold text-xl">{session?.user?.name}</div>
+              <div className="text-[#808080]">{session?.user?.email}</div>
+            </div>
+          </div>
+          <div
+            className="rounded-full bg-[#ff5050] text-white p-2 hover:cursor-pointer"
+            onClick={() => {
+              signOut({ callbackUrl: '/' });
+            }}
+          >
+            로그아웃
+          </div>
+        </div>
+
+        {/* 나의 모임 */}
+        <div className="flex justify-between items-center px-5 py-3 sticky top-0 bg-[#f7f7f7] shadow-y-md">
+          <h1 className="text-2xl font-semibold ">나의 모임</h1>
+        </div>
+        <div className="w-full flex flex-wrap justify-between divide-y">
+          <Link href="" className="w-full px-5 bg-white hover:bg-[#eeeeee]">
+            <div className="w-full h-fit flex-col justify-between items-center space-y-1 py-2">
+              <div className="font-semibold text-lg">스터디 그룹 모임</div>
+              <div className="flex items-center gap-4 text-[#666666]">
+                <div className="text-sm">할리스 합정역점</div>
+                <div className="text-sm">2023.06.02 11:00am</div>
+              </div>
+            </div>
+          </Link>
+          <Link href="" className="w-full px-5 bg-white hover:bg-[#eeeeee]">
+            <div className="w-full h-fit flex-col justify-between items-center space-y-1 py-2">
+              <div className="font-semibold text-lg">스터디 그룹 모임</div>
+              <div className="flex items-center gap-4 text-[#666666]">
+                <div className="text-sm">할리스 합정역점</div>
+                <div className="text-sm">2023.06.02 11:00am</div>
+              </div>
+            </div>
+          </Link>
+
+          {/* <Link href="" className="w-full">
+            <div className="w-full h-fit bg-[#EAF7FF] rounded-[40px] p-5">
               <div className="test-xl">11:00am</div>
               <div className="py-[10px] font-semibold text-xl">
                 스터디 그룹 모임
@@ -30,8 +77,8 @@ export default function Mypage() {
               <div className="test-xl">할리스 합정역점</div>
             </div>
           </Link>
-          <Link href="">
-            <div className="w-[456px] h-[143px] bg-[#EAF7FF] rounded-[40px] p-5">
+          <Link href="" className="w-full">
+            <div className="w-full h-fit bg-[#FFF0EA] rounded-[40px] p-5">
               <div className="test-xl">11:00am</div>
               <div className="py-[10px] font-semibold text-xl">
                 스터디 그룹 모임
@@ -39,8 +86,8 @@ export default function Mypage() {
               <div className="test-xl">할리스 합정역점</div>
             </div>
           </Link>
-          <Link href="">
-            <div className="w-[456px] h-[143px] bg-[#FFF0EA] rounded-[40px] p-5">
+          <Link href="" className="w-full">
+            <div className="w-full h-fit bg-[#EAF7FF] rounded-[40px] p-5">
               <div className="test-xl">11:00am</div>
               <div className="py-[10px] font-semibold text-xl">
                 스터디 그룹 모임
@@ -48,24 +95,15 @@ export default function Mypage() {
               <div className="test-xl">할리스 합정역점</div>
             </div>
           </Link>
-          <Link href="">
-            <div className="w-[456px] h-[143px] bg-[#EAF7FF] rounded-[40px] p-5">
+          <Link href="" className="w-full">
+            <div className="w-full h-fit bg-[#FFF0EA] rounded-[40px] p-5">
               <div className="test-xl">11:00am</div>
               <div className="py-[10px] font-semibold text-xl">
                 스터디 그룹 모임
               </div>
               <div className="test-xl">할리스 합정역점</div>
             </div>
-          </Link>
-          <Link href="">
-            <div className="w-[456px] h-[143px] bg-[#FFF0EA] rounded-[40px] p-5">
-              <div className="test-xl">11:00am</div>
-              <div className="py-[10px] font-semibold text-xl">
-                스터디 그룹 모임
-              </div>
-              <div className="test-xl">할리스 합정역점</div>
-            </div>
-          </Link>
+          </Link> */}
         </div>
       </div>
     </>

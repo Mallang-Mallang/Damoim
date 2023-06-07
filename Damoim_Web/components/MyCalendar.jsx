@@ -138,7 +138,7 @@ const MyCalendar = () => {
 
   return (
     <div className="h-full overflow-hidden flex flex-col justify-between">
-      <div className="px-5 mt-[50px]">
+      <div className="px-5 mt-2">
         <CalendarContainer>
           <Calendar
             onChange={onChange}
