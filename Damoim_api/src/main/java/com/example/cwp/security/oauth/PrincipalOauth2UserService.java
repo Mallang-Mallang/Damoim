@@ -62,13 +62,13 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         if (userOptional.isPresent()) {
             user = userOptional.get();
             user.setEmail(oAuth2UserInfo.getEmail());
-            user.setPicture(oAuth2UserInfo.getPicture());
+            user.setImage(oAuth2UserInfo.getPicture());
             userRepository.save(user);
         } else {
             user = User.builder()
                     .name(oAuth2UserInfo.getName())
                     .email(oAuth2UserInfo.getEmail())
-                    .picture(oAuth2UserInfo.getPicture())
+                    .image(oAuth2UserInfo.getPicture())
                     .provider(oAuth2UserInfo.getProvider())
                     .providerId(oAuth2UserInfo.getProviderId())
                     .build();

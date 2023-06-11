@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -14,18 +16,23 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 public class User {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false)
+    @Column(name = "email")
     private String email;
 
-    private String picture;
+    @Column(name = "emailVerified")
+    private LocalDateTime emailVerified;
+
+    private String image;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Account> accounts;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Session> sessions;
 
     private String provider;
 
@@ -38,11 +45,12 @@ public class User {
     private String companyAddress;
 
 
+
     public User(UserDto userDto) {
         this.id = userDto.getId();
         this.name = userDto.getName();
         this.email = userDto.getEmail();
-        this.picture = userDto.getPicture();
+        this.image = userDto.getImage();
         this.provider = userDto.getProvider();
         this.providerId = userDto.getProviderId();
         this.currentAddress = userDto.getCurrentAddress();

@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class UserDto {
-    private Long id;
+    private String id;
     private String name;
     private String email;
 
-    private String picture;
+    private String image;
     private String provider;
     private String providerId;
     private String currentAddress;
@@ -26,7 +26,7 @@ public class UserDto {
         this.id = user.getId();
         this.name = user.getName();
         this.email = user.getEmail();
-        this.picture = user.getPicture();
+        this.image = user.getImage();
         this.provider = user.getProvider();
         this.providerId = user.getProviderId();
         this.currentAddress = user.getCurrentAddress();
