@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 import { ArrowLongRightIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
+import { gql, useQuery } from '@apollo/client';
 
 const Calendar = dynamic(() => import('react-calendar'), {
   ssr: false,
@@ -127,15 +128,38 @@ const CalendarContainer = styled.div`
   }
 `;
 
-const MyCalendar = () => {
+const MyMeetingsQuery = gql`
+  query MyMeetings($userEmail: String!, $date: String!) {
+    myMeetings(userEmail: $userEmail, date: $date) {
+      id
+      createdAt
+      title
+      category
+      location
+      meetingDate
+      author {
+        name
+      }
+    }
+  }
+`;
+
+const MyCalendar = ({ session }) => {
   const [value, onChange] = useState();
   const [isClicked, setIsClicked] = useState(false);
   const [mark, setMark] = useState(['2023-04-23', '2023-04-21']);
+  const { loading, error, data } = useQuery(MyMeetingsQuery, {
+    variables: {
+      userEmail: session.user.email,
+      date: moment(value).format('YYYY-MM-DD'),
+    },
+    skip: session.user.email === undefined,
+  });
 
   useEffect(() => {
     onChange(new Date());
   }, []);
-
+  // console.log(data.myMeetings.length);
   return (
     <div className="h-full overflow-hidden flex flex-col justify-between">
       <div className="px-5 mt-2">
@@ -188,7 +212,48 @@ const MyCalendar = () => {
         <div className="text-gray-500 my-5 flex justify-center">
           {moment(value).format('YYYY년 MM월 DD일')}
         </div>
-        {/* 더미 1 */}
+
+        {data?.myMeetings.length !== 0 ? (
+          data?.myMeetings.map((v, i) => {
+            return (
+              <div
+                className="border w-full h-[145px] bg-[#EAF7FF] rounded-[40px] px-5 py-11 mb-3 flex justify-between items-center text-lg"
+                key={i}
+              >
+                <div>{v.meetingDate.slice(11, 16)}</div>
+                <div className="mx-3 w-full">
+                  <div className="font-semibold">{v.title}</div>
+                  <div>{v.location}</div>
+                </div>
+                <ArrowLongRightIcon width={30} height={30} />
+              </div>
+            );
+          })
+        ) : (
+          <div className="flex justify-center items-center text-gray-400 h-20">
+            "아직 등록된 모임이 없습니다."
+          </div>
+        )}
+
+        {/* <div className="border w-full h-[145px] bg-[#EAF7FF] rounded-[40px] px-5 py-11 mb-3 flex justify-between items-center text-lg">
+          <div>1:00pm</div>
+          <div className="mx-3 w-full">
+            <div className="font-semibold">스터디 모임</div>
+            <div>할리스 합정역</div>
+          </div>
+          <ArrowLongRightIcon width={30} height={30} />
+        </div>
+
+        
+        <div className="border w-full h-[145px] bg-[#FFF0EA] rounded-[40px] px-5 py-11 mb-3 flex justify-between items-center text-lg">
+          <div>1:00pm</div>
+          <div className="mx-3 w-full">
+            <div className="font-semibold">스터디 모임</div>
+            <div>할리스 합정역</div>
+          </div>
+          <ArrowLongRightIcon width={30} height={30} />
+        </div>
+        
         <div className="border w-full h-[145px] bg-[#EAF7FF] rounded-[40px] px-5 py-11 mb-3 flex justify-between items-center text-lg">
           <div>1:00pm</div>
           <div className="mx-3 w-full">
@@ -198,7 +263,7 @@ const MyCalendar = () => {
           <ArrowLongRightIcon width={30} height={30} />
         </div>
 
-        {/* 더미 2 */}
+        
         <div className="border w-full h-[145px] bg-[#FFF0EA] rounded-[40px] px-5 py-11 mb-3 flex justify-between items-center text-lg">
           <div>1:00pm</div>
           <div className="mx-3 w-full">
@@ -206,26 +271,7 @@ const MyCalendar = () => {
             <div>할리스 합정역</div>
           </div>
           <ArrowLongRightIcon width={30} height={30} />
-        </div>
-        {/* 더미 1 */}
-        <div className="border w-full h-[145px] bg-[#EAF7FF] rounded-[40px] px-5 py-11 mb-3 flex justify-between items-center text-lg">
-          <div>1:00pm</div>
-          <div className="mx-3 w-full">
-            <div className="font-semibold">스터디 모임</div>
-            <div>할리스 합정역</div>
-          </div>
-          <ArrowLongRightIcon width={30} height={30} />
-        </div>
-
-        {/* 더미 2 */}
-        <div className="border w-full h-[145px] bg-[#FFF0EA] rounded-[40px] px-5 py-11 mb-3 flex justify-between items-center text-lg">
-          <div>1:00pm</div>
-          <div className="mx-3 w-full">
-            <div className="font-semibold">스터디 모임</div>
-            <div>할리스 합정역</div>
-          </div>
-          <ArrowLongRightIcon width={30} height={30} />
-        </div>
+        </div> */}
       </div>
     </div>
   );

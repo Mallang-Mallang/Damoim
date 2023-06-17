@@ -1,10 +1,32 @@
+import { gql, useQuery } from '@apollo/client';
 import { signOut, useSession } from 'next-auth/react';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 
+const MyMeetingQuery = gql`
+  query MyMeeting($userEmail: String!) {
+    myMeeting(userEmail: $userEmail) {
+      id
+      createdAt
+      title
+      category
+      location
+      meetingDate
+      author {
+        name
+      }
+    }
+  }
+`;
+
 export default function Mypage() {
   const { data: session, status } = useSession();
+  const { loading, error, data } = useQuery(MyMeetingQuery, {
+    variables: { userEmail: session?.user?.email },
+    skip: session?.user?.email === undefined,
+  });
+  // console.log(data?.myMeeting);
   return (
     <>
       <Head>
@@ -49,7 +71,36 @@ export default function Mypage() {
           <h1 className="text-2xl font-semibold ">나의 모임</h1>
         </div>
         <div className="w-full flex flex-wrap justify-between divide-y">
-          <Link href="" className="w-full px-5 bg-white hover:bg-[#eeeeee]">
+          {data?.myMeeting.length !== 0 ? (
+            data?.myMeeting.map((v: any, i: number) => {
+              console.log(v);
+              return (
+                <Link
+                  href=""
+                  key={i}
+                  className="w-full px-5 bg-white hover:bg-[#eeeeee]"
+                >
+                  <div className="w-full h-fit flex-col justify-between items-center space-y-1 py-2">
+                    <div className="font-semibold text-lg">{v.title}</div>
+                    <div className="flex items-center gap-4 text-[#666666]">
+                      <div className="text-sm">{v.location}</div>
+                      <div className="text-sm">
+                        {v.meetingDate.replaceAll('-', '.').slice(0, 10) +
+                          ' ' +
+                          v.meetingDate.slice(11, 16)}
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })
+          ) : (
+            <div className="flex justify-center items-center w-full h-20 text-gray-500">
+              "아직 등록된 모임이 없습니다."
+            </div>
+          )}
+
+          {/* <Link href="" className="w-full px-5 bg-white hover:bg-[#eeeeee]">
             <div className="w-full h-fit flex-col justify-between items-center space-y-1 py-2">
               <div className="font-semibold text-lg">스터디 그룹 모임</div>
               <div className="flex items-center gap-4 text-[#666666]">
@@ -57,16 +108,7 @@ export default function Mypage() {
                 <div className="text-sm">2023.06.02 11:00am</div>
               </div>
             </div>
-          </Link>
-          <Link href="" className="w-full px-5 bg-white hover:bg-[#eeeeee]">
-            <div className="w-full h-fit flex-col justify-between items-center space-y-1 py-2">
-              <div className="font-semibold text-lg">스터디 그룹 모임</div>
-              <div className="flex items-center gap-4 text-[#666666]">
-                <div className="text-sm">할리스 합정역점</div>
-                <div className="text-sm">2023.06.02 11:00am</div>
-              </div>
-            </div>
-          </Link>
+          </Link> */}
 
           {/* <Link href="" className="w-full">
             <div className="w-full h-fit bg-[#EAF7FF] rounded-[40px] p-5">
