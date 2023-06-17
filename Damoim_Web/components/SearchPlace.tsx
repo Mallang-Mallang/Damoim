@@ -1,17 +1,18 @@
-import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import React, { useState } from 'react';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
+import { MapPinIcon } from '@heroicons/react/24/outline';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 
 function SearchPlace() {
   const [info, setInfo] = useState();
   const [markers, setMarkers]: any = useState([]);
-  const [map, setMap] = useState();
-  const [place, setPlace] = useState();
   const [state, setState]: any = useState({
     // 지도의 초기 위치
     center: { lat: 37.40326558195946, lng: 126.93068622168563 },
     // 지도 위치 변경시 panto를 이용할지(부드럽게 이동)
     isPanto: true,
+    errMsg: null,
+    isLoading: true,
   });
   const [searchAddress, SetSearchAddress] = useState();
 
@@ -58,6 +59,37 @@ function SearchPlace() {
       SearchMap();
     }
   };
+  const geoLocation = (e: any) => {
+    if (navigator.geolocation) {
+      // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setState((prev: any) => ({
+            ...prev,
+            center: {
+              lat: position.coords.latitude, // 위도
+              lng: position.coords.longitude, // 경도
+            },
+            isLoading: false,
+          }));
+        },
+        (err) => {
+          setState((prev: any) => ({
+            ...prev,
+            errMsg: err.message,
+            isLoading: false,
+          }));
+        },
+      );
+    } else {
+      // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+      setState((prev: any) => ({
+        ...prev,
+        errMsg: 'geolocation을 사용할수 없어요..',
+        isLoading: false,
+      }));
+    }
+  };
 
   return (
     <>
@@ -85,19 +117,46 @@ function SearchPlace() {
           }}
           level={3} // 지도의 확대 레벨
         >
-          {markers.map((marker: any) => (
-            <MapMarker
-              key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
-              position={marker.position}
-              onClick={() => setInfo(marker)}
-            >
-              {info && info.content === marker.content && (
-                <div className="text-black">{marker.content}</div>
-              )}
+          {!state.isLoading ? (
+            <MapMarker position={state.center}>
+              <div style={{ padding: '5px', color: '#000' }}>
+                {state.errMsg ? state.errMsg : '여기에 계신가요?!'}
+              </div>
             </MapMarker>
-          ))}
+          ) : (
+            markers.map((marker: any) => (
+              <MapMarker
+                key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
+                position={marker.position}
+                onClick={() => setInfo(marker)}
+              >
+                {info && info.content === marker.content && (
+                  <div className="text-black">{marker.content}</div>
+                )}
+              </MapMarker>
+            ))
+          )}
         </Map>
       </div>
+      <div>
+        <input
+          type="text"
+          placeholder="모임명"
+          className="w-full bg-transparent placeholder-gray-700 py-2 px-2 mb-2 border-b-2 border-gray-700 focus:outline-none focus:border-b-2 focus:border-sky-500"
+        />
+        <input
+          type="text"
+          placeholder="모임 시간"
+          className="w-full bg-transparent placeholder-gray-700 py-2 px-2 border-b-2 border-gray-700 focus:outline-none focus:border-b-2 focus:border-sky-500"
+        />
+      </div>
+      <button
+        className="relative w-full py-2 px-2 rounded-3xl border-solid border-2 border-sky-500 text-sky-500 font-semibold hover:bg-sky-500 hover:text-white hover:border-white"
+        onClick={geoLocation}
+      >
+        <MapPinIcon className="absolute w-5 h-5" />
+        현위치로 주소 설정
+      </button>
     </>
   );
 }
