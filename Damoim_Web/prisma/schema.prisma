@@ -6,8 +6,44 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Request {
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  meeting      Meeting  @relation(fields: [meetingId], references: [id])
+  meetingId    Int
+  requestEmail String
+  confirm      Boolean  @default(false)
+}
+
+model Meeting {
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  title       String
+  category    Category
+  location    String
+  meetingDate String
+  author      User      @relation(fields: [authorEmail], references: [email])
+  authorEmail String
+  requests    Request[]
+}
+
+enum Category {
+  STUDY
+  MOVIE
+  RESTAURANT
+  WALKING
+  EXHIBITION
+  MUSICAL
+  SHOPPING
+  TRAVELING
+  SPORTS
+  GAME
+  KIDS
+  OTHERS
 }
 
 model Account {
@@ -46,6 +82,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  meetings      Meeting[]
 }
 
 model VerificationToken {

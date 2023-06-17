@@ -1,5 +1,6 @@
 import Layout from '@/components/layout';
 import '@/styles/globals.css';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { NextPage } from 'next';
 import { Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
@@ -10,6 +11,10 @@ declare global {
     kakao: any;
   }
 }
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  uri: '/api/graphql',
+});
 
 export default function App({
   Component,
@@ -17,9 +22,11 @@ export default function App({
 }: AppProps<{ session: Session }>) {
   return (
     <SessionProvider session={pageProps.session}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <ApolloProvider client={client}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ApolloProvider>
     </SessionProvider>
   );
 }

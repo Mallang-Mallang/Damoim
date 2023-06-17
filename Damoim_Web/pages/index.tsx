@@ -76,7 +76,7 @@ export default function Home() {
           </div>
         </div>
       </div> */}
-      <MyCalendar />
+      <MyCalendar session={session} />
     </div>
   ) : (
     <Login />
