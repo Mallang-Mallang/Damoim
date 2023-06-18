@@ -152,17 +152,6 @@ function SearchPlace() {
           className="w-full bg-transparent placeholder-gray-700 py-2 px-2 mb-5 border-b-2 border-gray-700 focus:outline-none focus:border-b-2 focus:border-sky-500"
         />
         <p>모임 시간</p>
-        {/* <DatePicker
-          className="w-full bg-transparent placeholder-gray-700 py-2 px-2 mb-5 border-b-2 border-gray-700 focus:outline-none focus:border-b-2 focus:border-sky-500"
-          locale={ko}
-          selected={startDate}
-          onChange={(date: any) => setStartDate(date)}
-          showTimeSelect
-          timeFormat="aa h:mm"
-          timeIntervals={15}
-          timeCaption="time"
-          dateFormat="yyyy년 MM월 dd일 aa h시 mm분"
-        /> */}
         <div>
           <input
             className="w-full bg-transparent placeholder-gray-700 py-2 px-2 mb-5 border-b-2 border-gray-700 focus:outline-none focus:border-b-2 focus:border-sky-500"
