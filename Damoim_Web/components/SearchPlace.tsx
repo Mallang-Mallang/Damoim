@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
-import { MapPinIcon } from '@heroicons/react/24/outline';
+import { MapPinIcon, CalendarDaysIcon } from '@heroicons/react/24/outline';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
-import { ko } from 'date-fns/esm/locale';
-import DatePicker from 'react-datepicker';
-
-import 'react-datepicker/dist/react-datepicker.css';
 
 function SearchPlace() {
   const [info, setInfo] = useState();
@@ -20,8 +16,18 @@ function SearchPlace() {
   });
   const [searchAddress, SetSearchAddress] = useState();
 
-  const [startDate, setStartDate] = useState(new Date());
-  console.log(startDate);
+  const [date, setDate] = useState(
+    new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000)
+      .toISOString()
+      .slice(0, 16),
+  );
+
+  function setMinValue(e: any) {
+    if (e.target.value < date) {
+      alert('현재 시간보다 이전의 날짜는 설정할 수 없습니다.');
+      e.target.value = date;
+    }
+  }
 
   // 키워드 입력후 검색 클릭 시 원하는 키워드의 주소로 이동
   const SearchMap = () => {
@@ -153,9 +159,8 @@ function SearchPlace() {
           className="w-full bg-transparent placeholder-gray-700 py-2 px-2 mb-5 border-b-2 border-gray-700 focus:outline-none focus:border-b-2 focus:border-sky-500"
         />
         <p>모임 시간</p>
-        <DatePicker
-          showIcon
-          className="w-full bg-transparent placeholder-gray-700 py-2 px-2 border-b-2 border-gray-700 focus:outline-none focus:border-b-2 focus:border-sky-500"
+        {/* <DatePicker
+          className="w-full bg-transparent placeholder-gray-700 py-2 px-2 mb-5 border-b-2 border-gray-700 focus:outline-none focus:border-b-2 focus:border-sky-500"
           locale={ko}
           selected={startDate}
           onChange={(date: any) => setStartDate(date)}
@@ -164,7 +169,15 @@ function SearchPlace() {
           timeIntervals={15}
           timeCaption="time"
           dateFormat="yyyy년 MM월 dd일 aa h시 mm분"
-        />
+        /> */}
+        <div>
+          <input
+            className="w-full bg-transparent placeholder-gray-700 py-2 px-2 mb-5 border-b-2 border-gray-700 focus:outline-none focus:border-b-2 focus:border-sky-500"
+            type="datetime-local"
+            min={date}
+            onChange={setMinValue}
+          />
+        </div>
       </div>
 
       <button

@@ -13,11 +13,11 @@ const Footer = () => {
     { id: 0, route: '/', icon: HomeIcon, tabbarName: '홈' },
     {
       id: 1,
-      route: '/add_schedule',
+      route: '/meeting',
       icon: MapPinIcon,
       tabbarName: '모임 찾기',
     },
-    { id: 2, route: '/meeting', icon: UserGroupIcon, tabbarName: '모임' },
+    { id: 2, route: '/add_schedule', icon: UserGroupIcon, tabbarName: '모임' },
     { id: 3, route: '/mypage', icon: UserIcon, tabbarName: '마이페이지' },
   ];
   return (
