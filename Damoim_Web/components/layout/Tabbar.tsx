@@ -17,7 +17,12 @@ const Footer = () => {
       icon: MapPinIcon,
       tabbarName: '모임 찾기',
     },
-    { id: 2, route: '/add_schedule', icon: UserGroupIcon, tabbarName: '모임' },
+    {
+      id: 2,
+      route: '/add_schedule',
+      icon: UserGroupIcon,
+      tabbarName: '모임 생성',
+    },
     { id: 3, route: '/mypage', icon: UserIcon, tabbarName: '마이페이지' },
   ];
   return (

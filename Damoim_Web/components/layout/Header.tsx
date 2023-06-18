@@ -41,11 +41,7 @@ const Header = ({ path }: HaederProps) => {
           </div>
           <div
             className={`duration-300 border-2 border-sky-500 ${
-              path === '/add_schedule'
-                ? 'w-1/3'
-                : path === '/find'
-                ? 'w-2/3'
-                : 'w-full'
+              path === '/add_schedule' ? 'w-1/2' : 'w-full'
             }`}
           ></div>
         </div>
