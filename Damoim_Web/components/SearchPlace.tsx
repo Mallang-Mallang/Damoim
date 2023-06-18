@@ -56,7 +56,7 @@ function SearchPlace() {
           bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
         }
         setMarkers(markers);
-        console.log(info);
+        console.log(markers);
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
       }
     };
@@ -130,25 +130,18 @@ function SearchPlace() {
           }}
           level={3} // 지도의 확대 레벨
         >
-          {!state.isLoading ? (
-            <MapMarker position={state.center}>
-              <div style={{ padding: '5px', color: '#000' }}>
-                {state.errMsg ? state.errMsg : '여기에 계신가요?!'}
-              </div>
+          {!state.isLoading && <MapMarker position={state.center}></MapMarker>}
+          {markers.map((marker: any) => (
+            <MapMarker
+              key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
+              position={marker.position}
+              onClick={() => setInfo(marker)}
+            >
+              {info && info.content === marker.content && (
+                <div className="text-black">{marker.content}</div>
+              )}
             </MapMarker>
-          ) : (
-            markers.map((marker: any) => (
-              <MapMarker
-                key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
-                position={marker.position}
-                onClick={() => setInfo(marker)}
-              >
-                {info && info.content === marker.content && (
-                  <div className="text-black">{marker.content}</div>
-                )}
-              </MapMarker>
-            ))
-          )}
+          ))}
         </Map>
       </div>
       <div className="w-full">
