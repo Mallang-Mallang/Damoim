@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
-import { MapPinIcon, CalendarDaysIcon } from '@heroicons/react/24/outline';
+import { MapPinIcon } from '@heroicons/react/24/outline';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 function SearchPlace() {
-  const [info, setInfo] = useState();
+  const router = useRouter();
+  // const path = router.pathname === '/add_schedule' ? './find2' : '/meeting2'
+  const [info, setInfo]: any = useState();
   const [markers, setMarkers]: any = useState([]);
   const [state, setState]: any = useState({
     // 지도의 초기 위치
@@ -15,6 +19,7 @@ function SearchPlace() {
     isLoading: true,
   });
   const [searchAddress, SetSearchAddress] = useState();
+  const [meetingTitle, setMeetingTitle] = useState();
 
   const [date, setDate] = useState(
     new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000)
@@ -22,11 +27,25 @@ function SearchPlace() {
       .slice(0, 16),
   );
 
+  const datas = {
+    title: meetingTitle,
+    meetingDate: date,
+    location: info,
+    center: state.center,
+  };
+
   function setMinValue(e: any) {
     if (e.target.value < date) {
       alert('현재 시간보다 이전의 날짜는 설정할 수 없습니다.');
       e.target.value = date;
     }
+    setDate(e.target.value);
+    console.log(date);
+  }
+
+  function getMeetingTitle(e: any) {
+    setMeetingTitle(e.target.value);
+    console.log(meetingTitle);
   }
 
   // 키워드 입력후 검색 클릭 시 원하는 키워드의 주소로 이동
@@ -104,6 +123,19 @@ function SearchPlace() {
     }
   };
 
+  function exeption() {
+    if (!meetingTitle) {
+      router.reload();
+      alert('모임명을 입력해주세요.');
+    } else if (!date) {
+      router.reload();
+      alert('모임 시간을 설정해주세요.');
+    } else if (!info) {
+      router.reload();
+      alert('위치를 설정해주세요.');
+    }
+  }
+
   return (
     <>
       <div className="flex relative w-full bg-transparent">
@@ -150,6 +182,7 @@ function SearchPlace() {
           type="text"
           placeholder="모임명을 입력하세요."
           className="w-full bg-transparent placeholder-gray-700 py-2 px-2 mb-5 border-b-2 border-gray-700 focus:outline-none focus:border-b-2 focus:border-sky-500"
+          onChange={getMeetingTitle}
         />
         <p>모임 시간</p>
         <div>
@@ -169,6 +202,21 @@ function SearchPlace() {
         <MapPinIcon className="absolute w-5 h-5" />
         현위치로 주소 설정
       </button>
+      <Link
+        href={{
+          pathname:
+            router.pathname === '/add_schedule' ? '/find2' : '/meeting2', // 라우팅 id
+          query: { datas: JSON.stringify(datas) }, // props
+        }}
+        as={'/find2'} //url에 표시할 query
+      >
+        <button
+          className="relative w-full py-2 px-2 rounded-3xl border-solid border-2 border-sky-500 text-sky-500 font-semibold hover:bg-sky-500 hover:text-white hover:border-white"
+          onClick={exeption}
+        >
+          다음
+        </button>
+      </Link>
     </>
   );
 }

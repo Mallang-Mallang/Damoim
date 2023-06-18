@@ -1,11 +1,21 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 
 const Find2 = () => {
   const [btn, setBtn] = useState(txp);
   const [category, setCategory] = useState('');
-  console.log(category);
+  const { data: session } = useSession();
+
+  const router = useRouter();
+  const { datas }: any = router.query;
+  const currentDatas = JSON.parse(datas);
+  currentDatas['category'] = category;
+  currentDatas['location'] = currentDatas.location.content;
+  currentDatas['authorEmail'] = session?.user?.email;
+  console.log(currentDatas);
 
   const handleSelect = (id: number) => {
     const newBtn = btn.map((item) => {

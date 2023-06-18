@@ -10,11 +10,6 @@ const Location = () => {
           설정해주세요.
         </h1>
         <SearchPlace />
-        <Link href="./find">
-          <button className="relative w-full py-2 px-2 rounded-3xl border-solid border-2 border-sky-500 text-sky-500 font-semibold hover:bg-sky-500 hover:text-white hover:border-white">
-            다음
-          </button>
-        </Link>
       </div>
     </div>
   );
