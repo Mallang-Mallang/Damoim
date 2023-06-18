@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { MapPinIcon } from '@heroicons/react/24/outline';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
-import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/esm/locale';
 import DatePicker from 'react-datepicker';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 function SearchPlace() {
   const [info, setInfo] = useState();
@@ -144,7 +145,7 @@ function SearchPlace() {
           )}
         </Map>
       </div>
-      <div>
+      <div className="w-full">
         <p>모임명</p>
         <input
           type="text"
