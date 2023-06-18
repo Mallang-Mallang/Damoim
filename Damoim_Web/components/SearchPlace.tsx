@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { MapPinIcon } from '@heroicons/react/24/outline';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
+import 'react-datepicker/dist/react-datepicker.css';
+import { ko } from 'date-fns/esm/locale';
+import DatePicker from 'react-datepicker';
 
 function SearchPlace() {
   const [info, setInfo] = useState();
@@ -15,6 +18,9 @@ function SearchPlace() {
     isLoading: true,
   });
   const [searchAddress, SetSearchAddress] = useState();
+
+  const [startDate, setStartDate] = useState(new Date());
+  console.log(startDate);
 
   // 키워드 입력후 검색 클릭 시 원하는 키워드의 주소로 이동
   const SearchMap = () => {
@@ -139,17 +145,27 @@ function SearchPlace() {
         </Map>
       </div>
       <div>
+        <p>모임명</p>
         <input
           type="text"
-          placeholder="모임명"
-          className="w-full bg-transparent placeholder-gray-700 py-2 px-2 mb-2 border-b-2 border-gray-700 focus:outline-none focus:border-b-2 focus:border-sky-500"
+          placeholder="모임명을 입력하세요."
+          className="w-full bg-transparent placeholder-gray-700 py-2 px-2 mb-5 border-b-2 border-gray-700 focus:outline-none focus:border-b-2 focus:border-sky-500"
         />
-        <input
-          type="text"
-          placeholder="모임 시간"
+        <p>모임 시간</p>
+        <DatePicker
+          showIcon
           className="w-full bg-transparent placeholder-gray-700 py-2 px-2 border-b-2 border-gray-700 focus:outline-none focus:border-b-2 focus:border-sky-500"
+          locale={ko}
+          selected={startDate}
+          onChange={(date: any) => setStartDate(date)}
+          showTimeSelect
+          timeFormat="aa h:mm"
+          timeIntervals={15}
+          timeCaption="time"
+          dateFormat="yyyy년 MM월 dd일 aa h시 mm분"
         />
       </div>
+
       <button
         className="relative w-full py-2 px-2 rounded-3xl border-solid border-2 border-sky-500 text-sky-500 font-semibold hover:bg-sky-500 hover:text-white hover:border-white"
         onClick={geoLocation}
