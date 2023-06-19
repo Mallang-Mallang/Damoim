@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 import { CustomOverlayMap, Map, MapMarker } from 'react-kakao-maps-sdk';
-import moment from 'moment';
 import 'react-calendar/dist/Calendar.css';
-import dynamic from 'next/dynamic';
-import styled from 'styled-components';
-import { ArrowLongRightIcon } from '@heroicons/react/24/solid';
-import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { gql, useQuery } from '@apollo/client';
+import useStore from '@/store/useStore';
 
 const SearchMeetingsQuery = gql`
   query SearchMeetings($category: String!, $meetingDate: String!) {
@@ -30,20 +25,12 @@ const SearchMeetingsQuery = gql`
 `;
 
 const meeting2 = () => {
-  const { data: session, status } = useSession();
-  const [value, onChange] = useState();
-  const [isClicked, setIsClicked] = useState(false);
-  const router = useRouter();
-  const { datas }: any = router.query;
+  const { meetingDate, category }: any = useStore();
 
-  let currentDatas = JSON.parse(datas);
-  delete currentDatas.lat;
-  delete currentDatas.lng;
-  console.log(currentDatas);
   const { loading, error, data } = useQuery(SearchMeetingsQuery, {
     variables: {
-      category: currentDatas.category,
-      meetingDate: currentDatas.meetingDate,
+      category: category,
+      meetingDate: meetingDate,
     },
     // skip: session?.user?.email === undefined,
   });

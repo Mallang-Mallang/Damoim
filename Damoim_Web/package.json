@@ -30,7 +30,8 @@
     "react-calendar": "^4.2.1",
     "react-dom": "18.2.0",
     "react-kakao-maps-sdk": "^1.1.9",
-    "styled-components": "^5.3.9"
+    "styled-components": "^5.3.9",
+    "zustand": "^4.3.8"
   },
   "devDependencies": {
     "@types/node": "^20.2.5",

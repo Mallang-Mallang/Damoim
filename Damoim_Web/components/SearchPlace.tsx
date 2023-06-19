@@ -4,10 +4,11 @@ import { MapPinIcon } from '@heroicons/react/24/outline';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import useStore from '@/store/useStore';
 
 function SearchPlace() {
   const router = useRouter();
-  // const path = router.pathname === '/addSchedule' ? './find2' : '/meeting2'
+
   const [info, setInfo]: any = useState();
   const [markers, setMarkers]: any = useState([]);
   const [state, setState]: any = useState({
@@ -19,10 +20,46 @@ function SearchPlace() {
     isLoading: true,
   });
   const [searchAddress, SetSearchAddress] = useState();
-  const [meetingTitle, setMeetingTitle] = useState();
 
   const [btn, setBtn] = useState(txp);
-  const [category, setCategory] = useState('');
+
+  //zustand
+  const {
+    title,
+    meetingDate,
+    category,
+    setTitle,
+    setMeetingDate,
+    setLocation,
+    setLat,
+    setLng,
+    setCategory,
+  }: any = useStore();
+
+  function onClick() {
+    if (router.pathname === '/addSchedule') {
+      if (!info) {
+        alert('위치를 설정해주세요.');
+        return;
+      } else if (title === '') {
+        alert('모임명을 입력해주세요.');
+        return;
+      }
+      setLocation(info.content);
+      setLat(info.position.lat);
+      setLng(info.position.lng);
+    } else if (category === '') {
+      alert('카테고리를 1개 이상 선택해주세요.');
+      return;
+    } else if (meetingDate === '') {
+      alert('모임 시간을 설정해주세요.');
+      return;
+    }
+
+    router.pathname === '/addSchedule'
+      ? router.push('/find2')
+      : router.push('meeting2');
+  }
 
   const handleSelect = (id: number) => {
     const newBtn = btn.map((item) => {
@@ -36,7 +73,7 @@ function SearchPlace() {
     });
     setBtn([...newBtn]);
   };
-  console.log(category);
+
   const currentDateTime = new Date(
     new Date().getTime() - new Date().getTimezoneOffset() * 60000,
   )
@@ -49,32 +86,19 @@ function SearchPlace() {
     .toISOString()
     .slice(0, 10);
 
-  const [dateTime, setDateTime] = useState(currentDateTime);
-  const [date, setDate] = useState(currentDate);
-
-  const datas = {
-    title: meetingTitle,
-    meetingDate: router.pathname === '/addSchedule' ? dateTime : date,
-    location: info,
-    lat: state.center.lat,
-    lng: state.center.lng,
-    category: category,
-  };
-
   function setMinValue(e: any) {
     if (e.target.value < currentDate) {
       alert('현재 날짜보다 이전의 날짜는 설정할 수 없습니다.');
     }
     if (router.pathname === '/addSchedule') {
-      setDateTime(e.target.value);
+      setMeetingDate(e.target.value);
     } else {
-      setDate(e.target.value);
+      setMeetingDate(e.target.value);
     }
   }
 
   function getMeetingTitle(e: any) {
-    setMeetingTitle(e.target.value);
-    console.log(meetingTitle);
+    setTitle(e.target.value);
   }
 
   // 키워드 입력후 검색 클릭 시 원하는 키워드의 주소로 이동
@@ -104,7 +128,6 @@ function SearchPlace() {
           bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
         }
         setMarkers(markers);
-        console.log(markers);
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
       }
     };
@@ -152,19 +175,6 @@ function SearchPlace() {
     }
   };
 
-  function exeption() {
-    if (!info && router.pathname === '/addSchedule') {
-      router.reload();
-      alert('위치를 설정해주세요.');
-    } else if (!meetingTitle && router.pathname === '/addSchedule') {
-      router.reload();
-      alert('모임명을 입력해주세요.');
-    } else if (!date) {
-      router.reload();
-      alert('모임 시간을 설정해주세요.');
-    }
-  }
-
   return (
     <>
       {router.pathname === '/addSchedule' && (
@@ -183,13 +193,15 @@ function SearchPlace() {
         </div>
       )}
       <div className="w-full flex justify-around items-center bg-white flex-wrap gap-y-3">
-        <p className="block w-full">카테고리</p>
+        {router.pathname === '/meeting' && (
+          <p className="block w-full">카테고리</p>
+        )}
         {router.pathname === '/meeting' &&
           txp.map((v, i) => {
             return (
               <div
-                className={`flex shrink-0 justify-center items-center text-white font-bold text-[18px] bg-blue-500 rounded-full px-4 py-1  hover:bg-sky-400 active:bg-sky-500 ${
-                  v.selected && 'bg-sky-400'
+                className={`flex shrink-0 justify-center items-center text-white font-bold text-[18px] bg-blue-500 rounded-full px-4 py-1  hover:bg-blue-900 active:bg-sky-500 ${
+                  v.selected && 'bg-blue-900'
                 } `}
                 onClick={() => handleSelect(v.id)}
                 key={i}
@@ -254,28 +266,21 @@ function SearchPlace() {
           />
         </div>
       </div>
-
-      <button
-        className="relative w-full py-2 px-2 rounded-3xl border-solid border-2 border-sky-500 text-sky-500 font-semibold hover:bg-sky-500 hover:text-white hover:border-white"
-        onClick={geoLocation}
-      >
-        <MapPinIcon className="absolute w-5 h-5" />
-        현위치로 주소 설정
-      </button>
-      <Link
-        href={{
-          pathname: router.pathname === '/addSchedule' ? '/find2' : '/meeting2', // 라우팅 id
-          query: { datas: JSON.stringify(datas) }, // props
-        }}
-        as={router.pathname === '/addSchedule' ? '/find2' : '/meeting2'} //url에 표시할 query
-      >
+      {router.pathname === '/addSchedule' && (
         <button
           className="relative w-full py-2 px-2 rounded-3xl border-solid border-2 border-sky-500 text-sky-500 font-semibold hover:bg-sky-500 hover:text-white hover:border-white"
-          onClick={exeption}
+          onClick={geoLocation}
         >
-          다음
+          <MapPinIcon className="absolute w-5 h-5" />
+          현위치로 주소 설정
         </button>
-      </Link>
+      )}
+      <button
+        className="relative w-full py-2 px-2 rounded-3xl border-solid border-2 border-sky-500 text-sky-500 font-semibold hover:bg-sky-500 hover:text-white hover:border-white"
+        onClick={onClick}
+      >
+        다음
+      </button>
     </>
   );
 }

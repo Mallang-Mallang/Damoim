@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import { gql, useMutation, useQuery } from '@apollo/client';
+import useStore from '@/store/useStore';
 
 const FilterMyMeetingQuery = gql`
   query FilterMyMeeting($authorEmail: String!) {
@@ -58,16 +58,27 @@ const CreateMeetingMutation = gql`
 `;
 
 const Find2 = () => {
+  const router = useRouter();
   const [btn, setBtn] = useState(txp);
-  const [category, setCategory] = useState('');
   const { data: session } = useSession();
 
-  const router = useRouter();
-  const { datas }: any = router.query;
-  const currentDatas = JSON.parse(datas);
-  currentDatas['category'] = category;
-  currentDatas['location'] = currentDatas.location.content;
-  currentDatas['authorEmail'] = session?.user?.email;
+  const {
+    title,
+    meetingDate,
+    category,
+    location,
+    lat,
+    lng,
+    authorEmail,
+    setTitle,
+    setMeetingDate,
+    setLocation,
+    setLat,
+    setLng,
+    setCategory,
+    setAuthorEmail,
+  }: any = useStore();
+
   const { data, refetch } = useQuery(FilterMyMeetingQuery, {
     variables: { authorEmail: session?.user?.email },
     skip: session?.user?.email === undefined,
@@ -84,18 +95,23 @@ const Find2 = () => {
     },
   );
 
-  console.log(currentDatas);
-
   const onSubmit = async () => {
+    if (category === '') {
+      alert('카테고리를 1개 이상 선택해주세요.');
+      return;
+    }
+
+    setAuthorEmail(session?.user?.email);
+    console.log(title, meetingDate, category, location, lat, lng);
     // e.preventDefault();
     await createMeeting({
       variables: {
-        title: currentDatas.title,
-        meetingDate: currentDatas.meetingDate,
-        location: currentDatas.location,
-        lat: parseFloat(currentDatas.lat),
-        lng: parseFloat(currentDatas.lng),
-        category: currentDatas.category,
+        title: title,
+        meetingDate: meetingDate,
+        location: location,
+        lat: parseFloat(lat),
+        lng: parseFloat(lng),
+        category: category,
         authorEmail: session?.user?.email,
       },
     });
