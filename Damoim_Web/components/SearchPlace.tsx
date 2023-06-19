@@ -36,11 +36,12 @@ function SearchPlace() {
   };
 
   function setMinValue(e: any) {
-    if (new Date(e.target.value).toTimeString() < new Date().toTimeString()) {
-      alert('현재 시간보다 이전의 날짜는 설정할 수 없습니다.');
-      e.target.value = new Date();
+    if (e.target.value < new Date()) {
+      alert('현재 날짜보다 이전의 날짜는 설정할 수 없습니다.');
+      e.target.value = date;
     }
     setDate(e.target.value);
+    console.log(date);
   }
 
   function getMeetingTitle(e: any) {
