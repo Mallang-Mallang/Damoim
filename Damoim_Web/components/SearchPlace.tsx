@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { MapPinIcon } from '@heroicons/react/24/outline';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
@@ -36,6 +36,8 @@ function SearchPlace() {
     setCategory,
   }: any = useStore();
 
+  if (!(meetingDate === '')) setMeetingDate('');
+
   function onClick() {
     if (router.pathname === '/addSchedule') {
       if (!info) {
@@ -51,7 +53,8 @@ function SearchPlace() {
     } else if (category === '') {
       alert('카테고리를 1개 이상 선택해주세요.');
       return;
-    } else if (meetingDate === '') {
+    }
+    if (meetingDate === '') {
       alert('모임 시간을 설정해주세요.');
       return;
     }
@@ -90,11 +93,7 @@ function SearchPlace() {
     if (e.target.value < currentDate) {
       alert('현재 날짜보다 이전의 날짜는 설정할 수 없습니다.');
     }
-    if (router.pathname === '/addSchedule') {
-      setMeetingDate(e.target.value);
-    } else {
-      setMeetingDate(e.target.value);
-    }
+    setMeetingDate(e.target.value);
   }
 
   function getMeetingTitle(e: any) {
