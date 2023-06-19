@@ -31,16 +31,16 @@ function SearchPlace() {
     title: meetingTitle,
     meetingDate: date,
     location: info,
-    center: state.center,
+    lat: state.center.lat,
+    lng: state.center.lng,
   };
 
   function setMinValue(e: any) {
-    if (e.target.value < date) {
+    if (new Date(e.target.value).toTimeString() < new Date().toTimeString()) {
       alert('현재 시간보다 이전의 날짜는 설정할 수 없습니다.');
-      e.target.value = date;
+      e.target.value = new Date();
     }
     setDate(e.target.value);
-    console.log(date);
   }
 
   function getMeetingTitle(e: any) {
@@ -124,15 +124,15 @@ function SearchPlace() {
   };
 
   function exeption() {
-    if (!meetingTitle) {
+    if (!info) {
+      router.reload();
+      alert('위치를 설정해주세요.');
+    } else if (!meetingTitle) {
       router.reload();
       alert('모임명을 입력해주세요.');
     } else if (!date) {
       router.reload();
       alert('모임 시간을 설정해주세요.');
-    } else if (!info) {
-      router.reload();
-      alert('위치를 설정해주세요.');
     }
   }
 
