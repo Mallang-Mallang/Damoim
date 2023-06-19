@@ -89,7 +89,7 @@ function SearchPlace() {
           bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
         }
         setMarkers(markers);
-        console.log(JSON.stringify(markers));
+        console.log(markers);
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
       }
     };

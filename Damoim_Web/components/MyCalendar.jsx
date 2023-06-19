@@ -216,7 +216,8 @@ const MyCalendar = ({ session }) => {
         {data?.myMeetings.length !== 0 ? (
           data?.myMeetings.map((v, i) => {
             return (
-              <div
+              <Link
+                href={`/meetingInfo/${v.id}`}
                 className="border w-full h-[145px] bg-[#EAF7FF] rounded-[40px] px-5 py-11 mb-3 flex justify-between items-center text-lg"
                 key={i}
               >
@@ -226,7 +227,7 @@ const MyCalendar = ({ session }) => {
                   <div>{v.location}</div>
                 </div>
                 <ArrowLongRightIcon width={30} height={30} />
-              </div>
+              </Link>
             );
           })
         ) : (

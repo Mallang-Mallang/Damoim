@@ -1,3 +1,4 @@
+import MyRequest from '@/components/MyRequest';
 import { gql, useQuery } from '@apollo/client';
 import { signOut, useSession } from 'next-auth/react';
 import Head from 'next/head';
@@ -26,7 +27,7 @@ export default function Mypage() {
     variables: { userEmail: session?.user?.email },
     skip: session?.user?.email === undefined,
   });
-  // console.log(data?.myMeeting);
+
   return (
     <>
       <Head>
@@ -75,7 +76,7 @@ export default function Mypage() {
             data?.myMeeting.map((v: any, i: number) => {
               return (
                 <Link
-                  href=""
+                  href={`/meetingInfo/${v.id}`}
                   key={i}
                   className="w-full px-5 bg-white hover:bg-[#eeeeee]"
                 >
@@ -99,54 +100,10 @@ export default function Mypage() {
               "아직 등록된 모임이 없습니다."
             </div>
           )}
-
-          {/* <Link href="" className="w-full px-5 bg-white hover:bg-[#eeeeee]">
-            <div className="w-full h-fit flex-col justify-between items-center space-y-1 py-2">
-              <div className="font-semibold text-lg">스터디 그룹 모임</div>
-              <div className="flex items-center gap-4 text-[#666666]">
-                <div className="text-sm">할리스 합정역점</div>
-                <div className="text-sm">2023.06.02 11:00am</div>
-              </div>
-            </div>
-          </Link> */}
-
-          {/* <Link href="" className="w-full">
-            <div className="w-full h-fit bg-[#EAF7FF] rounded-[40px] p-5">
-              <div className="test-xl">11:00am</div>
-              <div className="py-[10px] font-semibold text-xl">
-                스터디 그룹 모임
-              </div>
-              <div className="test-xl">할리스 합정역점</div>
-            </div>
-          </Link>
-          <Link href="" className="w-full">
-            <div className="w-full h-fit bg-[#FFF0EA] rounded-[40px] p-5">
-              <div className="test-xl">11:00am</div>
-              <div className="py-[10px] font-semibold text-xl">
-                스터디 그룹 모임
-              </div>
-              <div className="test-xl">할리스 합정역점</div>
-            </div>
-          </Link>
-          <Link href="" className="w-full">
-            <div className="w-full h-fit bg-[#EAF7FF] rounded-[40px] p-5">
-              <div className="test-xl">11:00am</div>
-              <div className="py-[10px] font-semibold text-xl">
-                스터디 그룹 모임
-              </div>
-              <div className="test-xl">할리스 합정역점</div>
-            </div>
-          </Link>
-          <Link href="" className="w-full">
-            <div className="w-full h-fit bg-[#FFF0EA] rounded-[40px] p-5">
-              <div className="test-xl">11:00am</div>
-              <div className="py-[10px] font-semibold text-xl">
-                스터디 그룹 모임
-              </div>
-              <div className="test-xl">할리스 합정역점</div>
-            </div>
-          </Link> */}
         </div>
+
+        {/* 나의 모임 요청 */}
+        <MyRequest session={session} />
       </div>
     </>
   );
