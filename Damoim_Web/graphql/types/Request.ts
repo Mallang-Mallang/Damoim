@@ -14,7 +14,7 @@ export const Request = objectType({
       },
     });
     t.int('meetingId');
-    t.string('requestEmail');
+    t.string('requestName'), t.string('requestEmail');
     t.boolean('confirm');
   },
 });

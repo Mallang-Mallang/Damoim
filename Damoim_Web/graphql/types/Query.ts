@@ -86,5 +86,18 @@ export const Query = objectType({
         });
       },
     });
+    t.list.field('myRequests', {
+      type: 'Request',
+      args: {
+        userEmail: nonNull(stringArg()),
+      },
+      async resolve(_parents, _args, _ctx) {
+        return await _ctx.prisma.request.findMany({
+          where: {
+            requestEmail: _args.userEmail,
+          },
+        });
+      },
+    });
   },
 });

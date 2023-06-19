@@ -15,6 +15,7 @@ model Request {
   createdAt    DateTime @default(now())
   meeting      Meeting  @relation(fields: [meetingId], references: [id])
   meetingId    Int
+  requestName  String
   requestEmail String
   confirm      Boolean  @default(false)
 }

@@ -79,6 +79,7 @@ export interface NexusGenObjects {
     id?: number | null; // Int
     meetingId?: number | null; // Int
     requestEmail?: string | null; // String
+    requestName?: string | null; // String
   }
   User: { // root type
     email?: string | null; // String
@@ -122,6 +123,7 @@ export interface NexusGenFieldTypes {
     meetings: Array<NexusGenRootTypes['Meeting'] | null> | null; // [Meeting]
     myMeeting: Array<NexusGenRootTypes['Meeting'] | null> | null; // [Meeting]
     myMeetings: Array<NexusGenRootTypes['Meeting'] | null> | null; // [Meeting]
+    myRequests: Array<NexusGenRootTypes['Request'] | null> | null; // [Request]
     searchMeetings: Array<NexusGenRootTypes['Meeting'] | null> | null; // [Meeting]
   }
   Request: { // field return type
@@ -131,6 +133,7 @@ export interface NexusGenFieldTypes {
     meeting: NexusGenRootTypes['Meeting'] | null; // Meeting
     meetingId: number | null; // Int
     requestEmail: string | null; // String
+    requestName: string | null; // String
   }
   User: { // field return type
     email: string | null; // String
@@ -165,6 +168,7 @@ export interface NexusGenFieldTypeNames {
     meetings: 'Meeting'
     myMeeting: 'Meeting'
     myMeetings: 'Meeting'
+    myRequests: 'Request'
     searchMeetings: 'Meeting'
   }
   Request: { // field return type name
@@ -174,6 +178,7 @@ export interface NexusGenFieldTypeNames {
     meeting: 'Meeting'
     meetingId: 'Int'
     requestEmail: 'String'
+    requestName: 'String'
   }
   User: { // field return type name
     email: 'String'
@@ -205,6 +210,7 @@ export interface NexusGenArgTypes {
     requestMeeting: { // args
       meetingId: number; // Int!
       requestEmail: string; // String!
+      requestName: string; // String!
     }
   }
   Query: {
@@ -219,6 +225,9 @@ export interface NexusGenArgTypes {
     }
     myMeetings: { // args
       date: string; // String!
+      userEmail: string; // String!
+    }
+    myRequests: { // args
       userEmail: string; // String!
     }
     searchMeetings: { // args

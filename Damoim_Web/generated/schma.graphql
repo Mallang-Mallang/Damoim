@@ -24,7 +24,7 @@ type Mutation {
   confrimRequest(confirm: Boolean!, requestId: Int!): Request
   createMeeting(authorEmail: String!, category: String!, lat: Float!, lng: Float!, location: String!, meetingDate: String!, title: String!): Meeting
   deleteRequest(requestEmail: String!, requestId: Int!): Request
-  requestMeeting(meetingId: Int!, requestEmail: String!): Request
+  requestMeeting(meetingId: Int!, requestEmail: String!, requestName: String!): Request
 }
 
 type Query {
@@ -33,6 +33,7 @@ type Query {
   meetings: [Meeting]
   myMeeting(userEmail: String!): [Meeting]
   myMeetings(date: String!, userEmail: String!): [Meeting]
+  myRequests(userEmail: String!): [Request]
   searchMeetings(searchword: String!): [Meeting]
 }
 
@@ -43,6 +44,7 @@ type Request {
   meeting: Meeting
   meetingId: Int
   requestEmail: String
+  requestName: String
 }
 
 type User {

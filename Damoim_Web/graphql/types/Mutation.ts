@@ -45,12 +45,14 @@ export const Mutation = objectType({
       type: 'Request',
       args: {
         meetingId: nonNull(intArg()),
+        requestName: nonNull(stringArg()),
         requestEmail: nonNull(stringArg()),
       },
-      async resolve(_, { meetingId, requestEmail }, _ctx) {
+      async resolve(_, { meetingId, requestName, requestEmail }, _ctx) {
         return await _ctx.prisma.request.create({
           data: {
             meetingId,
+            requestName,
             requestEmail,
           },
         });
