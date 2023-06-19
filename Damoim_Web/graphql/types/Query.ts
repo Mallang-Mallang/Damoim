@@ -72,20 +72,37 @@ export const Query = objectType({
     t.list.field('searchMeetings', {
       type: 'Meeting',
       args: {
-        searchword: nonNull(stringArg()),
+        category: nonNull(stringArg()),
+        meetingDate: nonNull(stringArg()),
       },
       async resolve(_, _args, _ctx) {
         return await _ctx.prisma.meeting.findMany({
           where: {
-            OR: [
-              { title: { contains: String(_args.searchword) } },
-
-              { meetingDate: { contains: String(_args.searchword) } },
+            AND: [
+              { category: String(_args.category) },
+              { meetingDate: { contains: String(_args.meetingDate) } },
             ],
           },
         });
       },
     });
+    // t.list.field('searchMeetings', {
+    //   type: 'Meeting',
+    //   args: {
+    //     searchword: nonNull(stringArg()),
+    //   },
+    //   async resolve(_, _args, _ctx) {
+    //     return await _ctx.prisma.meeting.findMany({
+    //       where: {
+    //         OR: [
+    //           { title: { contains: String(_args.searchword) } },
+
+    //           { meetingDate: { contains: String(_args.searchword) } },
+    //         ],
+    //       },
+    //     });
+    //   },
+    // });
     t.list.field('myRequests', {
       type: 'Request',
       args: {

@@ -6,6 +6,7 @@ export const User = objectType({
     t.string('id');
     t.string('name');
     t.string('email');
+    t.string('image');
     t.list.field('meetings', {
       type: 'Meeting',
       async resolve(_parent, _args, ctx) {

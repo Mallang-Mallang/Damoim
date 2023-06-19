@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Map, MapMarker } from 'react-kakao-maps-sdk';
+import { CustomOverlayMap, Map, MapMarker } from 'react-kakao-maps-sdk';
 import moment from 'moment';
 import 'react-calendar/dist/Calendar.css';
 import dynamic from 'next/dynamic';
@@ -10,17 +10,20 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { gql, useQuery } from '@apollo/client';
 
-const MyMeetingsQuery = gql`
-  query MyMeetings($userEmail: String!, $date: String!) {
-    myMeetings(userEmail: $userEmail, date: $date) {
+const SearchMeetingsQuery = gql`
+  query SearchMeetings($category: String!, $meetingDate: String!) {
+    searchMeetings(category: $category, meetingDate: $meetingDate) {
       id
       createdAt
       title
       category
       location
+      lat
+      lng
       meetingDate
       author {
         name
+        image
       }
     }
   }
@@ -32,36 +35,56 @@ const meeting2 = () => {
   const [isClicked, setIsClicked] = useState(false);
   const router = useRouter();
   const { datas }: any = router.query;
-  const { loading, error, data } = useQuery(MyMeetingsQuery, {
+
+  let currentDatas = JSON.parse(datas);
+  delete currentDatas.lat;
+  delete currentDatas.lng;
+  console.log(currentDatas);
+  const { loading, error, data } = useQuery(SearchMeetingsQuery, {
     variables: {
-      userEmail: session?.user?.email,
-      date: moment(value).format('YYYY-MM-DD'),
+      category: currentDatas.category,
+      meetingDate: currentDatas.meetingDate,
     },
-    skip: session?.user?.email === undefined,
+    // skip: session?.user?.email === undefined,
   });
 
-  try {
-    let currentDatas = JSON.parse(datas);
-    delete currentDatas.lat;
-    delete currentDatas.lng;
-    console.log(currentDatas);
-  } catch (e: any) {
-    console.log(e.message);
-  }
-
-  useEffect(() => {
-    onChange(new Date());
-  }, []);
+  // useEffect(() => {
+  //   onChange(new Date());
+  // }, []);
 
   const [state, setState]: any = useState({
     // 지도의 초기 위치
-    center: { lat: 37.40326558195946, lng: 126.93068622168563 },
+    center: { lat: 37.508908482648, lng: 126.891312500851 },
     // 지도 위치 변경시 panto를 이용할지(부드럽게 이동)
     isPanto: true,
     errMsg: null,
     isLoading: true,
   });
-  return (
+  let centerLat = 0;
+  let centerLng = 0;
+  let centerCount = 0;
+
+  useEffect(() => {
+    if (data) {
+      data.searchMeetings.map((v: any, i: number) => {
+        centerLat += v.lat;
+        centerLng += v.lng;
+        centerCount++;
+      });
+
+      setState({
+        ...state,
+        center: {
+          lat: centerLat / centerCount,
+          lng: centerLng / centerCount,
+        },
+      });
+    }
+  }, [data]);
+  console.log(loading);
+  console.log(data);
+
+  return !loading && data ? (
     <div className="h-full overflow-hidden flex flex-col justify-between">
       <div>
         <Map // 지도를 표시할 Container
@@ -72,24 +95,50 @@ const meeting2 = () => {
             width: '100%',
             height: '50vh',
           }}
-          level={3} // 지도의 확대 레벨
+          level={9} // 지도의 확대 레벨
         >
-          {dummy.map((marker: any) => (
+          {/* {dummy.map((marker: any) => (
             <MapMarker
               key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
               position={marker.position}
             ></MapMarker>
+          ))} */}
+          {data.searchMeetings.map((v: any, i: number) => (
+            <div key={i}>
+              {/* <MarkerWithCustomOverlayStyle /> */}
+              <MapMarker
+                position={{ lat: v.lat.toString(), lng: v.lng.toString() }}
+              />
+              <CustomOverlayMap
+                position={{ lat: v.lat.toString(), lng: v.lng.toString() }}
+                yAnchor={1}
+              >
+                <div className="flex relative bottom-[45px] rounded-lg overflow-hidden">
+                  <Link
+                    href={`/meetingInfo/${v.id}`}
+                    rel="noreferrer"
+                    className="flex"
+                  >
+                    <div className="flex justify-center items-center bg-white px-[15px] py-[10px] text-[14px] font-bold">
+                      {v.title}
+                    </div>
+                    <div className='flex bg-[#d95050] bg-[url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png")] bg-no-repeat bg-center w-6'></div>
+                  </Link>
+                </div>
+                <div className='absolute ml-[-12px] left-[50%] bottom-[33px] w-[22px] h-[12px] content-[" "] bg-[url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png")]'></div>
+              </CustomOverlayMap>
+            </div>
           ))}
         </Map>
       </div>
-      <div
+      {/* <div
         className={`w-full shadow-top-xl p-5 pb-0 bg-white z-10 duration-500 ${
           isClicked
             ? '-translate-y-80 h-[550px] mb-[-320px] overflow-y-scroll'
             : 'h-[350px] overflow-hidden hover:mt-[-10px]'
         }`}
-      >
-        <div
+      > */}
+      {/* <div
           className="flex justify-between items-center hover:cursor-pointer"
           onClick={() => setIsClicked(!isClicked)}
         >
@@ -97,10 +146,10 @@ const meeting2 = () => {
         </div>
         <div className="text-gray-500 my-5 flex justify-center">
           {moment(value).format('YYYY년 MM월 DD일')}
-        </div>
+        </div> */}
 
-        {data?.myMeetings.length !== 0 ? (
-          data?.myMeetings.map((v: any, i: number) => {
+      {/* {data?.searchMeetings.length !== 0 ? (
+          data?.searchMeetings.map((v: any, i: number) => {
             return (
               <div
                 className="border w-full h-[145px] bg-[#EAF7FF] rounded-[40px] px-5 py-11 mb-3 flex justify-between items-center text-lg"
@@ -119,9 +168,9 @@ const meeting2 = () => {
           <div className="flex justify-center items-center text-gray-400 h-20">
             "아직 등록된 모임이 없습니다."
           </div>
-        )}
+        )} */}
 
-        <div className="border w-full h-[145px] bg-[#EAF7FF] rounded-[40px] px-5 py-11 mb-3 flex justify-between items-center text-lg">
+      {/* <div className="border w-full h-[145px] bg-[#EAF7FF] rounded-[40px] px-5 py-11 mb-3 flex justify-between items-center text-lg">
           <div>1:00pm</div>
           <div className="mx-3 w-full">
             <div className="font-semibold">스터디 모임</div>
@@ -155,10 +204,10 @@ const meeting2 = () => {
             <div>할리스 합정역</div>
           </div>
           <ArrowLongRightIcon width={30} height={30} />
-        </div>
-      </div>
+        </div> */}
+      {/* </div> */}
     </div>
-  );
+  ) : null;
 };
 
 const dummy = [

@@ -58,7 +58,7 @@ export default function Mypage() {
             </div>
           </div>
           <div
-            className="rounded-full bg-[#ff5050] text-white p-2 hover:cursor-pointer"
+            className="rounded-full bg-[#ff5050] hover:bg-[#fe3838] text-white p-2 hover:cursor-pointer"
             onClick={() => {
               signOut({ callbackUrl: '/' });
             }}

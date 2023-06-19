@@ -29,6 +29,31 @@ const MeetingQuery = gql`
     }
   }
 `;
+
+const RequestMeetingMutation = gql`
+  mutation RequestMeeting(
+    $meetingId: Int!
+    $requestName: String!
+    $requestEmail: String!
+  ) {
+    requestMeeting(
+      meetingId: $meetingId
+      requestName: $requestName
+      requestEmail: $requestEmail
+    ) {
+      id
+      createdAt
+      meetingId
+      meeting {
+        id
+        title
+      }
+      requestName
+      requestEmail
+      confirm
+    }
+  }
+`;
 const ConfirmRequestMutation = gql`
   mutation ConfrimRequest($requestId: Int!, $confirm: Boolean!) {
     confrimRequest(requestId: $requestId, confirm: $confirm) {
@@ -52,10 +77,12 @@ const DeleteRequestMutation = gql`
     }
   }
 `;
+
 const meetingInfoId = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
   const meetingId = Number(router.query.meetingInfoId);
+  const [isRequested, setIsRequested] = useState(false);
   const { loading, error, data } = useQuery(MeetingQuery, {
     variables: { locationId: meetingId },
     skip: isNaN(meetingId),
@@ -64,6 +91,9 @@ const meetingInfoId = () => {
     refetchQueries: ['Meeting'],
   });
   const [deleteRequest] = useMutation(DeleteRequestMutation, {
+    refetchQueries: ['Meeting'],
+  });
+  const [requestMeeting] = useMutation(RequestMeetingMutation, {
     refetchQueries: ['Meeting'],
   });
 
@@ -83,7 +113,7 @@ const meetingInfoId = () => {
       });
     }
   }, [meetingId, data]);
-  console.log(data);
+
   return data ? (
     <div className="flex-col w-full h-full justify-center items-center">
       <div className=" w-full h-fit">
@@ -146,7 +176,7 @@ const meetingInfoId = () => {
                         </div>
                         <div className="flex gap-2">
                           <div
-                            className="flex px-2 rounded-lg bg-[#58b7ff] text-white hover:cursor-pointer"
+                            className="flex px-2 rounded-lg bg-[#58b7ff] hover:bg-[#44aeff] text-white hover:cursor-pointer"
                             onClick={() => {
                               confirmRequest({
                                 variables: { requestId: v.id, confirm: true },
@@ -157,7 +187,7 @@ const meetingInfoId = () => {
                           </div>
 
                           <div
-                            className="flex px-2 rounded-lg bg-[#ff5050] text-white hover:cursor-pointer"
+                            className="flex px-2 rounded-lg bg-[#ff5050] hover:bg-[#fe3838] text-white hover:cursor-pointer"
                             onClick={() => {
                               if (confirm('요청을 삭제하시겠습니까?')) {
                                 deleteRequest({
@@ -191,6 +221,25 @@ const meetingInfoId = () => {
       )}
       <div className="flex justify-between items-center px-5 py-3 sticky top-0 bg-[#f7f7f7] shadow-bottom-md">
         <h1 className="text-xl font-semibold">모임 참가자</h1>
+
+        {data.meeting.requests.filter(
+          (e: any) => e.requestEmail === session?.user?.email,
+        ).length === 0 && (
+          <div
+            className="rounded-full bg-[#58b7ff] text-white p-2 hover:cursor-pointer hover:bg-[#44aeff]"
+            onClick={() =>
+              requestMeeting({
+                variables: {
+                  meetingId: data?.meeting.id,
+                  requestName: session?.user?.name,
+                  requestEmail: session?.user?.email,
+                },
+              })
+            }
+          >
+            참가 요청
+          </div>
+        )}
       </div>
       <div className="w-full flex flex-wrap justify-between divide-y">
         {data.meeting.requests.filter((e: any) => e.confirm === true).length !==
@@ -214,7 +263,7 @@ const meetingInfoId = () => {
                     <div className="flex gap-2">
                       {data.meeting.author.email === session?.user?.email ? (
                         <div
-                          className="flex px-2 rounded-lg bg-[#ff5050] text-white hover:cursor-pointer"
+                          className="flex px-2 rounded-lg bg-[#ff5050] hover:bg-[#fe3838] text-white hover:cursor-pointer"
                           onClick={() => {
                             confirmRequest({
                               variables: { requestId: v.id, confirm: false },

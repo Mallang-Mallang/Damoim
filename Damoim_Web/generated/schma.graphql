@@ -34,7 +34,7 @@ type Query {
   myMeeting(userEmail: String!): [Meeting]
   myMeetings(date: String!, userEmail: String!): [Meeting]
   myRequests(userEmail: String!): [Request]
-  searchMeetings(searchword: String!): [Meeting]
+  searchMeetings(category: String!, meetingDate: String!): [Meeting]
 }
 
 type Request {
@@ -50,6 +50,7 @@ type Request {
 type User {
   email: String
   id: String
+  image: String
   meetings: [Meeting]
   name: String
 }

@@ -84,6 +84,7 @@ export interface NexusGenObjects {
   User: { // root type
     email?: string | null; // String
     id?: string | null; // String
+    image?: string | null; // String
     name?: string | null; // String
   }
 }
@@ -138,6 +139,7 @@ export interface NexusGenFieldTypes {
   User: { // field return type
     email: string | null; // String
     id: string | null; // String
+    image: string | null; // String
     meetings: Array<NexusGenRootTypes['Meeting'] | null> | null; // [Meeting]
     name: string | null; // String
   }
@@ -183,6 +185,7 @@ export interface NexusGenFieldTypeNames {
   User: { // field return type name
     email: 'String'
     id: 'String'
+    image: 'String'
     meetings: 'Meeting'
     name: 'String'
   }
@@ -231,7 +234,8 @@ export interface NexusGenArgTypes {
       userEmail: string; // String!
     }
     searchMeetings: { // args
-      searchword: string; // String!
+      category: string; // String!
+      meetingDate: string; // String!
     }
   }
 }
