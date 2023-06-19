@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 
 function SearchPlace() {
   const router = useRouter();
-  // const path = router.pathname === '/add_schedule' ? './find2' : '/meeting2'
+  // const path = router.pathname === '/addSchedule' ? './find2' : '/meeting2'
   const [info, setInfo]: any = useState();
   const [markers, setMarkers]: any = useState([]);
   const [state, setState]: any = useState({
@@ -21,27 +21,40 @@ function SearchPlace() {
   const [searchAddress, SetSearchAddress] = useState();
   const [meetingTitle, setMeetingTitle] = useState();
 
-  const [date, setDate] = useState(
-    new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000)
-      .toISOString()
-      .slice(0, 16),
-  );
+  const currentDateTime = new Date(
+    new Date().getTime() - new Date().getTimezoneOffset() * 60000,
+  )
+    .toISOString()
+    .slice(0, 16);
+
+  const currentDate = new Date(
+    new Date().getTime() - new Date().getTimezoneOffset() * 60000,
+  )
+    .toISOString()
+    .slice(0, 10);
+
+  const [dateTime, setDateTime] = useState(currentDateTime);
+  const [date, setDate] = useState(currentDate);
 
   const datas = {
     title: meetingTitle,
-    meetingDate: date,
+    meetingDate: router.pathname === '/addSchedule' ? dateTime : date,
     location: info,
     lat: state.center.lat,
     lng: state.center.lng,
   };
 
   function setMinValue(e: any) {
-    if (e.target.value < new Date()) {
+    if (e.target.value < currentDate) {
       alert('현재 날짜보다 이전의 날짜는 설정할 수 없습니다.');
+    }
+    if (router.pathname === '/addSchedule') {
+      setDateTime(e.target.value);
+      e.target.value = dateTime;
+    } else {
+      setDate(e.target.value);
       e.target.value = date;
     }
-    setDate(e.target.value);
-    console.log(date);
   }
 
   function getMeetingTitle(e: any) {
@@ -76,7 +89,7 @@ function SearchPlace() {
           bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
         }
         setMarkers(markers);
-        console.log(markers);
+        console.log(JSON.stringify(markers));
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
       }
     };
@@ -128,7 +141,7 @@ function SearchPlace() {
     if (!info) {
       router.reload();
       alert('위치를 설정해주세요.');
-    } else if (!meetingTitle) {
+    } else if (!meetingTitle && router.pathname === '/addSchedule') {
       router.reload();
       alert('모임명을 입력해주세요.');
     } else if (!date) {
@@ -178,19 +191,27 @@ function SearchPlace() {
         </Map>
       </div>
       <div className="w-full">
-        <p>모임명</p>
-        <input
-          type="text"
-          placeholder="모임명을 입력하세요."
-          className="w-full bg-transparent placeholder-gray-700 py-2 px-2 mb-5 border-b-2 border-gray-700 focus:outline-none focus:border-b-2 focus:border-sky-500"
-          onChange={getMeetingTitle}
-        />
+        {router.pathname === '/addSchedule' && (
+          <>
+            <p>모임명</p>
+            <input
+              type="text"
+              placeholder="모임명을 입력하세요."
+              className="w-full bg-transparent placeholder-gray-700 py-2 px-2 mb-5 border-b-2 border-gray-700 focus:outline-none focus:border-b-2 focus:border-sky-500"
+              onChange={getMeetingTitle}
+            />
+          </>
+        )}
         <p>모임 시간</p>
         <div>
           <input
             className="w-full bg-transparent placeholder-gray-700 py-2 px-2 mb-5 border-b-2 border-gray-700 focus:outline-none focus:border-b-2 focus:border-sky-500"
-            type="datetime-local"
-            min={date}
+            type={`${
+              router.pathname === '/addSchedule' ? 'datetime-local' : 'date'
+            }`}
+            min={
+              router.pathname === '/addSchedule' ? currentDateTime : currentDate
+            }
             onChange={setMinValue}
           />
         </div>
@@ -205,11 +226,10 @@ function SearchPlace() {
       </button>
       <Link
         href={{
-          pathname:
-            router.pathname === '/add_schedule' ? '/find2' : '/meeting2', // 라우팅 id
+          pathname: router.pathname === '/addSchedule' ? '/find2' : '/meeting2', // 라우팅 id
           query: { datas: JSON.stringify(datas) }, // props
         }}
-        as={'/find2'} //url에 표시할 query
+        as={router.pathname === '/addSchedule' ? '/find2' : '/meeting2'} //url에 표시할 query
       >
         <button
           className="relative w-full py-2 px-2 rounded-3xl border-solid border-2 border-sky-500 text-sky-500 font-semibold hover:bg-sky-500 hover:text-white hover:border-white"
