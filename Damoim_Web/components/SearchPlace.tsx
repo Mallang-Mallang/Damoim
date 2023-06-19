@@ -67,10 +67,8 @@ function SearchPlace() {
     }
     if (router.pathname === '/addSchedule') {
       setDateTime(e.target.value);
-      e.target.value = dateTime;
     } else {
       setDate(e.target.value);
-      e.target.value = date;
     }
   }
 
