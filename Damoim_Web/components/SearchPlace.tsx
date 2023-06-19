@@ -21,6 +21,22 @@ function SearchPlace() {
   const [searchAddress, SetSearchAddress] = useState();
   const [meetingTitle, setMeetingTitle] = useState();
 
+  const [btn, setBtn] = useState(txp);
+  const [category, setCategory] = useState('');
+
+  const handleSelect = (id: number) => {
+    const newBtn = btn.map((item) => {
+      if (item.id === id || item.selected) {
+        item.selected = !item.selected;
+      }
+      if (item.selected) {
+        setCategory(item.title);
+      }
+      return item;
+    });
+    setBtn([...newBtn]);
+  };
+  console.log(category);
   const currentDateTime = new Date(
     new Date().getTime() - new Date().getTimezoneOffset() * 60000,
   )
@@ -42,6 +58,7 @@ function SearchPlace() {
     location: info,
     lat: state.center.lat,
     lng: state.center.lng,
+    category: category,
   };
 
   function setMinValue(e: any) {
@@ -138,7 +155,7 @@ function SearchPlace() {
   };
 
   function exeption() {
-    if (!info) {
+    if (!info && router.pathname === '/addSchedule') {
       router.reload();
       alert('위치를 설정해주세요.');
     } else if (!meetingTitle && router.pathname === '/addSchedule') {
@@ -152,55 +169,67 @@ function SearchPlace() {
 
   return (
     <>
-      <div className="flex relative w-full bg-transparent">
-        <MagnifyingGlassIcon className="absolute w-5 h-5 top-1/4 left-2" />
-        <input
-          type="text"
-          placeholder="도로명, 건물명 또는 지번으로 검색"
-          className="w-full pl-8 py-2 pr-2 rounded-3xl bg-gray-200 placeholder-gray-400"
-          onChange={handleSearchAddress}
-          onKeyDown={onSubmitSearch}
-        />
-        <button className="absolute right-3 top-2" onClick={SearchMap}>
-          검색
-        </button>
-      </div>
+      {router.pathname === '/addSchedule' && (
+        <div className="flex relative w-full bg-transparent">
+          <MagnifyingGlassIcon className="absolute w-5 h-5 top-1/4 left-2" />
+          <input
+            type="text"
+            placeholder="도로명, 건물명 또는 지번으로 검색"
+            className="w-full pl-8 py-2 pr-2 rounded-3xl bg-gray-200 placeholder-gray-400"
+            onChange={handleSearchAddress}
+            onKeyDown={onSubmitSearch}
+          />
+          <button className="absolute right-3 top-2" onClick={SearchMap}>
+            검색
+          </button>
+        </div>
+      )}
       <div className="w-full flex justify-around items-center bg-white flex-wrap gap-y-3">
+        <p className="block w-full">카테고리</p>
         {router.pathname === '/meeting' &&
           txp.map((v, i) => {
             return (
-              <div className="flex shrink-0 justify-center items-center text-white font-bold text-[18px] bg-blue-500 rounded-full px-4 py-1">
+              <div
+                className={`flex shrink-0 justify-center items-center text-white font-bold text-[18px] bg-blue-500 rounded-full px-4 py-1  hover:bg-sky-400 active:bg-sky-500 ${
+                  v.selected && 'bg-sky-400'
+                } `}
+                onClick={() => handleSelect(v.id)}
+                key={i}
+              >
                 {v.name}
               </div>
             );
           })}
       </div>
-
-      <div className="bg-gray-200 overflow-clip">
-        <Map // 지도를 표시할 Container
-          center={state.center}
-          isPanto={state.isPanto}
-          style={{
-            // 지도의 크기
-            width: '100%',
-            height: '300px',
-          }}
-          level={3} // 지도의 확대 레벨
-        >
-          {!state.isLoading && <MapMarker position={state.center}></MapMarker>}
-          {markers.map((marker: any) => (
-            <MapMarker
-              key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
-              position={marker.position}
-              onClick={() => setInfo(marker)}
-            >
-              {info && info.content === marker.content && (
-                <div className="text-black">{marker.content}</div>
-              )}
-            </MapMarker>
-          ))}
-        </Map>
-      </div>
+      {router.pathname === '/addSchedule' && (
+        <div className="bg-gray-200 overflow-clip">
+          <Map // 지도를 표시할 Container
+            center={state.center}
+            isPanto={state.isPanto}
+            style={{
+              // 지도의 크기
+              width: '100%',
+              height: '300px',
+            }}
+            level={3} // 지도의 확대 레벨
+          >
+            {!state.isLoading && (
+              <MapMarker position={state.center}></MapMarker>
+            )}
+            {markers.map((marker: any) => (
+              <MapMarker
+                key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
+                position={marker.position}
+                onClick={() => setInfo(marker)}
+              >
+                {info && info.content === marker.content && (
+                  <div className="text-black">{marker.content}</div>
+                )}
+              </MapMarker>
+            ))}
+          </Map>
+        </div>
+      )}
       <div className="w-full">
         {router.pathname === '/addSchedule' && (
           <>
