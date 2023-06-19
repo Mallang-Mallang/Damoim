@@ -165,6 +165,17 @@ function SearchPlace() {
           검색
         </button>
       </div>
+      <div className="w-full flex justify-around items-center bg-white flex-wrap gap-y-3">
+        {router.pathname === '/meeting' &&
+          txp.map((v, i) => {
+            return (
+              <div className="flex shrink-0 justify-center items-center text-white font-bold text-[18px] bg-blue-500 rounded-full px-4 py-1">
+                {v.name}
+              </div>
+            );
+          })}
+      </div>
+
       <div className="bg-gray-200 overflow-clip">
         <Map // 지도를 표시할 Container
           center={state.center}
@@ -243,3 +254,91 @@ function SearchPlace() {
 }
 
 export default SearchPlace;
+
+const txp = [
+  {
+    id: 0,
+    name: '스터디',
+    title: 'STUDY',
+    icon: '/icon/book.png',
+    selected: false,
+  },
+  {
+    id: 1,
+    name: '영화',
+    title: 'MOVIE',
+    icon: '/icon/popcorn.png',
+    selected: false,
+  },
+  {
+    id: 2,
+    name: '맛집',
+    title: 'RESTAURANT',
+    icon: '/icon/restaurant.png',
+    selected: false,
+  },
+  {
+    id: 3,
+    name: '산책',
+    title: 'WALKING',
+    icon: '/icon/jogging.png',
+    selected: false,
+  },
+  {
+    id: 4,
+    name: '전시',
+    title: 'EXHIBITION',
+    icon: '/icon/museum.png',
+    selected: false,
+  },
+  {
+    id: 5,
+    name: '뮤지컬',
+    title: 'MUSICAL',
+
+    icon: '/icon/concert.png',
+    selected: false,
+  },
+  {
+    id: 6,
+    name: '쇼핑',
+    title: 'SHOPPING',
+    icon: '/icon/shopping.png',
+    selected: false,
+  },
+  {
+    id: 7,
+    name: '여행',
+    title: 'TRAVELING',
+    icon: '/icon/travel.png',
+    selected: false,
+  },
+  {
+    id: 8,
+    name: '운동',
+    title: 'SPORTS',
+    icon: '/icon/exercise.png',
+    selected: false,
+  },
+  {
+    id: 9,
+    name: '게임',
+    title: 'GAME',
+    icon: '/icon/game.png',
+    selected: false,
+  },
+  {
+    id: 10,
+    name: '키즈',
+    title: 'KIDS',
+    icon: '/icon/kid.png',
+    selected: false,
+  },
+  {
+    id: 11,
+    name: '그 외',
+    title: 'OTHERS',
+    icon: '/icon/dot.png',
+    selected: false,
+  },
+];
