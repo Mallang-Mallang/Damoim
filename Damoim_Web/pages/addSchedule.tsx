@@ -1,7 +1,7 @@
 import SearchPlace from '@/components/SearchPlace';
 import Link from 'next/link';
 
-const Location = () => {
+const addSchedule = () => {
   return (
     <div className="w-full h-full px-4 py-5 overflow-auto">
       <div className="inner flex flex-col gap-8">
@@ -15,4 +15,4 @@ const Location = () => {
   );
 };
 
-export default Location;
+export default addSchedule;

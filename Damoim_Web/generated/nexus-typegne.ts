@@ -65,6 +65,8 @@ export interface NexusGenObjects {
     category?: string | null; // String
     createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
     id?: number | null; // Int
+    lat?: number | null; // Float
+    lng?: number | null; // Float
     location?: string | null; // String
     meetingDate?: string | null; // String
     title?: string | null; // String
@@ -101,6 +103,8 @@ export interface NexusGenFieldTypes {
     category: string | null; // String
     createdAt: NexusGenScalars['DateTime'] | null; // DateTime
     id: number | null; // Int
+    lat: number | null; // Float
+    lng: number | null; // Float
     location: string | null; // String
     meetingDate: string | null; // String
     requests: Array<NexusGenRootTypes['Request'] | null> | null; // [Request]
@@ -113,6 +117,8 @@ export interface NexusGenFieldTypes {
     requestMeeting: NexusGenRootTypes['Request'] | null; // Request
   }
   Query: { // field return type
+    filterMyMeeting: NexusGenRootTypes['Meeting'] | null; // Meeting
+    meeting: NexusGenRootTypes['Meeting'] | null; // Meeting
     meetings: Array<NexusGenRootTypes['Meeting'] | null> | null; // [Meeting]
     myMeeting: Array<NexusGenRootTypes['Meeting'] | null> | null; // [Meeting]
     myMeetings: Array<NexusGenRootTypes['Meeting'] | null> | null; // [Meeting]
@@ -140,6 +146,8 @@ export interface NexusGenFieldTypeNames {
     category: 'String'
     createdAt: 'DateTime'
     id: 'Int'
+    lat: 'Float'
+    lng: 'Float'
     location: 'String'
     meetingDate: 'String'
     requests: 'Request'
@@ -152,6 +160,8 @@ export interface NexusGenFieldTypeNames {
     requestMeeting: 'Request'
   }
   Query: { // field return type name
+    filterMyMeeting: 'Meeting'
+    meeting: 'Meeting'
     meetings: 'Meeting'
     myMeeting: 'Meeting'
     myMeetings: 'Meeting'
@@ -182,6 +192,8 @@ export interface NexusGenArgTypes {
     createMeeting: { // args
       authorEmail: string; // String!
       category: string; // String!
+      lat: number; // Float!
+      lng: number; // Float!
       location: string; // String!
       meetingDate: string; // String!
       title: string; // String!
@@ -196,6 +208,12 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
+    filterMyMeeting: { // args
+      authorEmail: string; // String!
+    }
+    meeting: { // args
+      locationId: number; // Int!
+    }
     myMeeting: { // args
       userEmail: string; // String!
     }

@@ -19,6 +19,25 @@ const nextConfig = {
       },
     ];
   },
+  // async redirects() {
+  //   return [
+  //     {
+  //       source: '/add_schedule',
+  //       destination: '/',
+  //       permanent: false,
+  //     },
+  //     {
+  //       source: '/meeting',
+  //       destination: '/',
+  //       permanent: false,
+  //     },
+  //     {
+  //       source: '/mypage',
+  //       destination: '/',
+  //       permanent: false,
+  //     },
+  //   ];
+  // },
 };
 
 module.exports = nextConfig;

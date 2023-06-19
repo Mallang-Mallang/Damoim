@@ -1,8 +1,19 @@
-import { nonNull, objectType, stringArg } from 'nexus';
+import { booleanArg, intArg, nonNull, objectType, stringArg } from 'nexus';
 
 export const Query = objectType({
   name: 'Query',
   definition(t) {
+    t.field('meeting', {
+      type: 'Meeting',
+      args: {
+        locationId: nonNull(intArg()),
+      },
+      async resolve(_, _args, ctx) {
+        return await ctx.prisma.meeting.findUnique({
+          where: { id: Number(_args.locationId) },
+        });
+      },
+    });
     t.list.field('meetings', {
       type: 'Meeting',
       async resolve(_, _args, _ctx) {
@@ -22,6 +33,21 @@ export const Query = objectType({
         });
       },
     });
+    t.field('filterMyMeeting', {
+      type: 'Meeting',
+      args: {
+        authorEmail: nonNull(stringArg()),
+      },
+      async resolve(_parents, _args, _ctx) {
+        return await _ctx.prisma.meeting.findFirst({
+          where: {
+            authorEmail: _args.authorEmail,
+          },
+          orderBy: { id: 'desc' },
+        });
+      },
+    });
+
     t.list.field('myMeetings', {
       type: 'Meeting',
       args: {

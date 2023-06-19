@@ -73,7 +73,6 @@ export default function Mypage() {
         <div className="w-full flex flex-wrap justify-between divide-y">
           {data?.myMeeting.length !== 0 ? (
             data?.myMeeting.map((v: any, i: number) => {
-              console.log(v);
               return (
                 <Link
                   href=""
@@ -83,9 +82,10 @@ export default function Mypage() {
                   <div className="w-full h-fit flex-col justify-between items-center space-y-1 py-2">
                     <div className="font-semibold text-lg">{v.title}</div>
                     <div className="flex items-center gap-4 text-[#666666]">
-                      <div className="text-sm">{v.location}</div>
+                      <div className="text-sm">{'위치 : ' + v.location}</div>
                       <div className="text-sm">
-                        {v.meetingDate.replaceAll('-', '.').slice(0, 10) +
+                        {'일시 : ' +
+                          v.meetingDate.replaceAll('-', '.').slice(0, 10) +
                           ' ' +
                           v.meetingDate.slice(11, 16)}
                       </div>

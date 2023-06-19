@@ -59,7 +59,7 @@ const Header = ({ path }: HaederProps) => {
   };
 
   return (
-    <div className="flex w-[500px] h-[60px] justify-between items-center fixed top-0 bg-white z-20 border border-blue-500">
+    <div className="flex w-[500px] h-[60px] justify-between items-center fixed top-0 bg-white z-20 shadow-bottom-sm">
       {haederType()}
     </div>
   );

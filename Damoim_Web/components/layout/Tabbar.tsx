@@ -19,7 +19,7 @@ const Footer = () => {
     },
     {
       id: 2,
-      route: '/add_schedule',
+      route: '/addSchedule',
       icon: UserGroupIcon,
       tabbarName: '모임 생성',
     },

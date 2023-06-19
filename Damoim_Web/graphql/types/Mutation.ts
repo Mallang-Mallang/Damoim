@@ -1,5 +1,6 @@
 import {
   booleanArg,
+  floatArg,
   intArg,
   nonNull,
   nullable,
@@ -16,12 +17,14 @@ export const Mutation = objectType({
         title: nonNull(stringArg()),
         meetingDate: nonNull(stringArg()),
         location: nonNull(stringArg()),
+        lat: nonNull(floatArg()),
+        lng: nonNull(floatArg()),
         category: nonNull(stringArg()),
         authorEmail: nonNull(stringArg()),
       },
       async resolve(
         _,
-        { title, meetingDate, location, category, authorEmail },
+        { title, meetingDate, location, lat, lng, category, authorEmail },
         _ctx,
       ) {
         return await _ctx.prisma.meeting.create({
@@ -29,6 +32,8 @@ export const Mutation = objectType({
             title,
             meetingDate,
             location,
+            lat,
+            lng,
             category,
             author: { connect: { email: authorEmail } },
           },

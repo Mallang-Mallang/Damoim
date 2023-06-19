@@ -11,7 +11,7 @@ const Layout = ({ children }: PropsWithChildren) => {
       <div
         className={`w-[500px] h-full ${
           router.pathname === '/login' || 'pt-[60px]'
-        } pb-[65px] border border-pink-500 bg-white overflow-auto`}
+        } pb-[65px] bg-white overflow-auto`}
       >
         {children}
       </div>

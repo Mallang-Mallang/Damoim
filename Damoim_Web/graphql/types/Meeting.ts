@@ -11,6 +11,8 @@ export const Meeting = objectType({
     t.string('title');
     t.string('category');
     t.string('location');
+    t.float('lat');
+    t.float('lng');
     t.string('meetingDate');
     t.field('author', {
       type: 'User',

@@ -12,6 +12,8 @@ type Meeting {
   category: String
   createdAt: DateTime
   id: Int
+  lat: Float
+  lng: Float
   location: String
   meetingDate: String
   requests: [Request]
@@ -20,12 +22,14 @@ type Meeting {
 
 type Mutation {
   confrimRequest(confirm: Boolean!, requestId: Int!): Request
-  createMeeting(authorEmail: String!, category: String!, location: String!, meetingDate: String!, title: String!): Meeting
+  createMeeting(authorEmail: String!, category: String!, lat: Float!, lng: Float!, location: String!, meetingDate: String!, title: String!): Meeting
   deleteRequest(requestEmail: String!, requestId: Int!): Request
   requestMeeting(meetingId: Int!, requestEmail: String!): Request
 }
 
 type Query {
+  filterMyMeeting(authorEmail: String!): Meeting
+  meeting(locationId: Int!): Meeting
   meetings: [Meeting]
   myMeeting(userEmail: String!): [Meeting]
   myMeetings(date: String!, userEmail: String!): [Meeting]

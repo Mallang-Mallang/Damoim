@@ -25,6 +25,8 @@ model Meeting {
   title       String
   category    Category
   location    String
+  lat         Float
+  lng         Float
   meetingDate String
   author      User      @relation(fields: [authorEmail], references: [email])
   authorEmail String
