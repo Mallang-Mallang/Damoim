@@ -3,6 +3,59 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
+import { gql, useMutation, useQuery } from '@apollo/client';
+
+const FilterMyMeetingQuery = gql`
+  query FilterMyMeeting($authorEmail: String!) {
+    filterMyMeeting(authorEmail: $authorEmail) {
+      id
+      createdAt
+      title
+      category
+      location
+      lat
+      lng
+      meetingDate
+      author {
+        name
+      }
+    }
+  }
+`;
+
+const CreateMeetingMutation = gql`
+  mutation CreateMeeting(
+    $title: String!
+    $meetingDate: String!
+    $location: String!
+    $lat: Float!
+    $lng: Float!
+    $category: String!
+    $authorEmail: String!
+  ) {
+    createMeeting(
+      title: $title
+      meetingDate: $meetingDate
+      location: $location
+      lat: $lat
+      lng: $lng
+      category: $category
+      authorEmail: $authorEmail
+    ) {
+      id
+      createdAt
+      title
+      category
+      location
+      lat
+      lng
+      meetingDate
+      requests {
+        id
+      }
+    }
+  }
+`;
 
 const Find2 = () => {
   const [btn, setBtn] = useState(txp);
@@ -11,22 +64,42 @@ const Find2 = () => {
 
   const router = useRouter();
   const { datas }: any = router.query;
-  console.log(datas);
+  const currentDatas = JSON.parse(datas);
+  currentDatas['category'] = category;
+  currentDatas['location'] = currentDatas.location.content;
+  currentDatas['authorEmail'] = session?.user?.email;
+  const { data, refetch } = useQuery(FilterMyMeetingQuery, {
+    variables: { authorEmail: session?.user?.email },
+    skip: session?.user?.email === undefined,
+  });
+  const [createMeeting, { loading, error }] = useMutation(
+    CreateMeetingMutation,
+    {
+      onCompleted: async () => {
+        const response = await refetch();
+        console.log(response);
+        router.push(`/location/${response.data.filterMyMeeting.id}`);
+        // router.push(`/location`);
+      },
+    },
+  );
 
-  try {
-    let currentDatas = JSON.parse(datas);
+  console.log(currentDatas);
 
-    currentDatas = {
-      ...currentDatas,
-      category: category,
-      location: currentDatas.location.content,
-      authorEmail: session?.user?.email,
-    };
-
-    console.log(currentDatas);
-  } catch (e: any) {
-    console.log(e.message);
-  }
+  const onSubmit = async () => {
+    // e.preventDefault();
+    await createMeeting({
+      variables: {
+        title: currentDatas.title,
+        meetingDate: currentDatas.meetingDate,
+        location: currentDatas.location,
+        lat: parseFloat(currentDatas.lat),
+        lng: parseFloat(currentDatas.lng),
+        category: currentDatas.category,
+        authorEmail: session?.user?.email,
+      },
+    });
+  };
 
   const handleSelect = (id: number) => {
     const newBtn = btn.map((item) => {
@@ -67,30 +140,17 @@ const Find2 = () => {
             </button>
           ))}
         </div>
-        <Link
-          href="./location"
+        <button
           className="flex justify-center items-center relative w-full py-2 bg-sky-400 rounded-xl text-cloud-500 font-semibold text-slate-50"
+          onClick={onSubmit}
         >
           완료
-        </Link>
+        </button>
       </div>
     </div>
   );
 };
 export default Find2;
-
-// STUDY;
-// MOVIE;
-// RESTAURANT;
-// WALKING;
-// EXHIBITION;
-// MUSICAL;
-// SHOPPING;
-// TRAVELING;
-// SPORTS;
-// GAME;
-// KIDS;
-// OTHERS;
 
 const txp = [
   {
