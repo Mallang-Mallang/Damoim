@@ -1,14 +1,21 @@
-import React from 'react';
+import Image from 'next/image';
+import { useSession } from 'next-auth/react';
 
 function Notification() {
+  const { data: session } = useSession();
+  console.log(session);
   return (
-    <div className="flex items-center w-full h-[100px] p-2 ">
-      <div className="flex justify-center items-start pt-3 w-[100px] h-full">
-        <div className="w-[50px] h-[50px] bg-slate-500 rounded-full"></div>
-      </div>
+    <div className="flex items-center w-full h-[100px] p-3 ">
+      <Image
+        src={session?.user?.image!}
+        width={50}
+        height={50}
+        className="border rounded-full m-3"
+        alt="profile"
+      />
 
       <div className="flex flex-col justify-around w-full h-full">
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eos, illo amet
+        {session?.user?.name}님이 모임을 추가했습니다.
         <br />
         <span className="text-xs text-gray-500">35분 전</span>
       </div>
