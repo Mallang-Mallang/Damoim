@@ -28,6 +28,7 @@ type Mutation {
 }
 
 type Query {
+  allMyMeeting(targetDate: String!, userEmail: String!): [Meeting]
   filterMyMeeting(authorEmail: String!): Meeting
   meeting(locationId: Int!): Meeting
   meetings: [Meeting]

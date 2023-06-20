@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Map, MapMarker } from 'react-kakao-maps-sdk';
+import { CustomOverlayMap, Map, MapMarker } from 'react-kakao-maps-sdk';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/router';
 import { gql, useQuery } from '@apollo/client';
+import Link from 'next/link';
 
 const MeetingQuery = gql`
   query Meeting($locationId: Int!) {
@@ -47,7 +48,7 @@ const locationId = () => {
       });
     }
   }, [locationId, data]);
-
+  console.log(data);
   return data ? (
     <div className="flex-col w-full h-full justify-center items-center">
       <div className=" w-full h-fit">
@@ -92,7 +93,23 @@ const locationId = () => {
           }}
           level={3} // 지도의 확대 레벨
         >
-          <MapMarker position={state.center}></MapMarker>
+          <MapMarker position={state.center} />
+
+          <CustomOverlayMap position={state.center} yAnchor={1}>
+            <div className="flex relative bottom-[45px] rounded-lg overflow-hidden">
+              <Link
+                href={`/meetingInfo/${data.meeting.id}`}
+                rel="noreferrer"
+                className="flex"
+              >
+                <div className="flex justify-center items-center bg-white pl-2 pr-[15px] py-[10px] text-[14px] font-bold">
+                  {data.meeting.location}
+                </div>
+                <div className='flex bg-[#d95050] bg-[url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png")] bg-no-repeat bg-center w-6'></div>
+              </Link>
+            </div>
+            <div className='absolute ml-[-12px] left-[50%] bottom-[33px] w-[22px] h-[12px] content-[" "] bg-[url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png")]'></div>
+          </CustomOverlayMap>
         </Map>
       </div>
     </div>

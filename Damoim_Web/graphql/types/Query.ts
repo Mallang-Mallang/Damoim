@@ -33,6 +33,22 @@ export const Query = objectType({
         });
       },
     });
+    t.list.field('allMyMeeting', {
+      type: 'Meeting',
+      args: {
+        userEmail: nonNull(stringArg()),
+        targetDate: nonNull(stringArg()),
+      },
+      async resolve(_parents, _args, _ctx) {
+        return await _ctx.prisma.meeting.findMany({
+          where: {
+            authorEmail: _args.userEmail,
+            meetingDate: { contains: _args.targetDate },
+          },
+        });
+      },
+    });
+
     t.field('filterMyMeeting', {
       type: 'Meeting',
       args: {

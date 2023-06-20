@@ -117,7 +117,7 @@ const meeting2 = () => {
                   width: '100%',
                   height: '67vh',
                 }}
-                level={9} // 지도의 확대 레벨
+                level={5} // 지도의 확대 레벨
               >
                 {data.searchMeetings.map((v: any, i: number) => (
                   <div key={i}>
@@ -141,14 +141,16 @@ const meeting2 = () => {
                           rel="noreferrer"
                           className="flex"
                         >
-                          <div className="bg-white flex justify-center items-center pl-2 w-8">
-                            <Image
-                              src={v.author.image}
-                              alt="userProfile"
-                              width={100}
-                              height={100}
-                              className="rounded-full"
-                            />
+                          <div className="bg-white flex justify-center items-center pl-2">
+                            <div className="w-8 h-8 rounded-full overflow-hidden">
+                              <Image
+                                src={v.author.image}
+                                alt="userProfile"
+                                width={100}
+                                height={100}
+                                className="rounded-full overflow-hidden"
+                              />
+                            </div>
                           </div>
                           <div className="flex justify-center items-center bg-white pl-2 pr-[15px] py-[10px] text-[14px] font-bold">
                             {v.title}

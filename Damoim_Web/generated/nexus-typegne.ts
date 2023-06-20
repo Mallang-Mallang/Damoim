@@ -119,6 +119,7 @@ export interface NexusGenFieldTypes {
     requestMeeting: NexusGenRootTypes['Request'] | null; // Request
   }
   Query: { // field return type
+    allMyMeeting: Array<NexusGenRootTypes['Meeting'] | null> | null; // [Meeting]
     filterMyMeeting: NexusGenRootTypes['Meeting'] | null; // Meeting
     meeting: NexusGenRootTypes['Meeting'] | null; // Meeting
     meetings: Array<NexusGenRootTypes['Meeting'] | null> | null; // [Meeting]
@@ -165,6 +166,7 @@ export interface NexusGenFieldTypeNames {
     requestMeeting: 'Request'
   }
   Query: { // field return type name
+    allMyMeeting: 'Meeting'
     filterMyMeeting: 'Meeting'
     meeting: 'Meeting'
     meetings: 'Meeting'
@@ -217,6 +219,10 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
+    allMyMeeting: { // args
+      targetDate: string; // String!
+      userEmail: string; // String!
+    }
     filterMyMeeting: { // args
       authorEmail: string; // String!
     }
