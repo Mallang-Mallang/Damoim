@@ -20,6 +20,7 @@
 
 ## Stack
 
+**Front-End**
 - Next.Js
 - React
 - Typescript
@@ -30,6 +31,11 @@
 - Zustand
 - GraphQL
 - Prisma
+
+<br>
+
+**Back-End**
+- Spring
 
 ## Folder path
 
