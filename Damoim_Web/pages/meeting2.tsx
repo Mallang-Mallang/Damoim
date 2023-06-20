@@ -4,6 +4,7 @@ import 'react-calendar/dist/Calendar.css';
 import Link from 'next/link';
 import { gql, useQuery } from '@apollo/client';
 import useStore from '@/store/useStore';
+import Image from 'next/image';
 
 const SearchMeetingsQuery = gql`
   query SearchMeetings($category: String!, $meetingDate: String!) {
@@ -84,12 +85,6 @@ const meeting2 = () => {
           }}
           level={9} // 지도의 확대 레벨
         >
-          {/* {dummy.map((marker: any) => (
-            <MapMarker
-              key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
-              position={marker.position}
-            ></MapMarker>
-          ))} */}
           {data.searchMeetings.map((v: any, i: number) => (
             <div key={i}>
               {/* <MarkerWithCustomOverlayStyle /> */}
@@ -106,7 +101,16 @@ const meeting2 = () => {
                     rel="noreferrer"
                     className="flex"
                   >
-                    <div className="flex justify-center items-center bg-white px-[15px] py-[10px] text-[14px] font-bold">
+                    <div className="bg-white flex justify-center items-center pl-2 w-8">
+                      <Image
+                        src={v.author.image}
+                        alt="userProfile"
+                        width={100}
+                        height={100}
+                        className="rounded-full"
+                      />
+                    </div>
+                    <div className="flex justify-center items-center bg-white pl-2 pr-[15px] py-[10px] text-[14px] font-bold">
                       {v.title}
                     </div>
                     <div className='flex bg-[#d95050] bg-[url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png")] bg-no-repeat bg-center w-6'></div>
@@ -118,81 +122,6 @@ const meeting2 = () => {
           ))}
         </Map>
       </div>
-      {/* <div
-        className={`w-full shadow-top-xl p-5 pb-0 bg-white z-10 duration-500 ${
-          isClicked
-            ? '-translate-y-80 h-[550px] mb-[-320px] overflow-y-scroll'
-            : 'h-[350px] overflow-hidden hover:mt-[-10px]'
-        }`}
-      > */}
-      {/* <div
-          className="flex justify-between items-center hover:cursor-pointer"
-          onClick={() => setIsClicked(!isClicked)}
-        >
-          <div className="font-semibold text-[30px]">전체모임</div>
-        </div>
-        <div className="text-gray-500 my-5 flex justify-center">
-          {moment(value).format('YYYY년 MM월 DD일')}
-        </div> */}
-
-      {/* {data?.searchMeetings.length !== 0 ? (
-          data?.searchMeetings.map((v: any, i: number) => {
-            return (
-              <div
-                className="border w-full h-[145px] bg-[#EAF7FF] rounded-[40px] px-5 py-11 mb-3 flex justify-between items-center text-lg"
-                key={i}
-              >
-                <div>{v.meetingDate.slice(11, 16)}</div>
-                <div className="mx-3 w-full">
-                  <div className="font-semibold">{v.title}</div>
-                  <div>{v.location}</div>
-                </div>
-                <ArrowLongRightIcon width={30} height={30} />
-              </div>
-            );
-          })
-        ) : (
-          <div className="flex justify-center items-center text-gray-400 h-20">
-            "아직 등록된 모임이 없습니다."
-          </div>
-        )} */}
-
-      {/* <div className="border w-full h-[145px] bg-[#EAF7FF] rounded-[40px] px-5 py-11 mb-3 flex justify-between items-center text-lg">
-          <div>1:00pm</div>
-          <div className="mx-3 w-full">
-            <div className="font-semibold">스터디 모임</div>
-            <div>할리스 합정역</div>
-          </div>
-          <ArrowLongRightIcon width={30} height={30} />
-        </div>
-
-        <div className="border w-full h-[145px] bg-[#FFF0EA] rounded-[40px] px-5 py-11 mb-3 flex justify-between items-center text-lg">
-          <div>1:00pm</div>
-          <div className="mx-3 w-full">
-            <div className="font-semibold">스터디 모임</div>
-            <div>할리스 합정역</div>
-          </div>
-          <ArrowLongRightIcon width={30} height={30} />
-        </div>
-
-        <div className="border w-full h-[145px] bg-[#EAF7FF] rounded-[40px] px-5 py-11 mb-3 flex justify-between items-center text-lg">
-          <div>1:00pm</div>
-          <div className="mx-3 w-full">
-            <div className="font-semibold">스터디 모임</div>
-            <div>할리스 합정역</div>
-          </div>
-          <ArrowLongRightIcon width={30} height={30} />
-        </div>
-
-        <div className="border w-full h-[145px] bg-[#FFF0EA] rounded-[40px] px-5 py-11 mb-3 flex justify-between items-center text-lg">
-          <div>1:00pm</div>
-          <div className="mx-3 w-full">
-            <div className="font-semibold">스터디 모임</div>
-            <div>할리스 합정역</div>
-          </div>
-          <ArrowLongRightIcon width={30} height={30} />
-        </div> */}
-      {/* </div> */}
     </div>
   ) : null;
 };
