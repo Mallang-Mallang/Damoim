@@ -51,7 +51,8 @@ function SearchPlace() {
     } else if (category === '') {
       alert('카테고리를 1개 이상 선택해주세요.');
       return;
-    } else if (meetingDate === '') {
+    }
+    if (meetingDate === '') {
       alert('모임 시간을 설정해주세요.');
       return;
     }
@@ -96,6 +97,7 @@ function SearchPlace() {
       setMeetingDate(e.target.value);
     }
   }
+  console.log(meetingDate);
 
   function getMeetingTitle(e: any) {
     setTitle(e.target.value);
