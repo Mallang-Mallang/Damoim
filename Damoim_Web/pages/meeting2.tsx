@@ -72,91 +72,105 @@ const meeting2 = () => {
   console.log(loading);
   console.log(data);
 
-  return !loading && data ? (
+  return (
     <>
-      <div className="flex-col w-full h-fit justify-center items-center">
-        <div className=" w-full h-fit">
-          <div className="w-full  flex justify-center items-center bg-white py-5">
-            <div className="flex flex-col w-full justify-center items-center">
-              <h1 className="text-[20px] font-bold">
-                카테고리 :{' '}
-                {txp.map((v: any, i: number) => {
-                  if (v.title === data.searchMeetings[0].category) {
-                    return v.name;
-                  }
-                })}
-              </h1>
-              <h2 className="text-[20px] font-semibold">
-                검색된 모임 : {data.searchMeetings.length}개
-              </h2>
-              <p className="text-[#666666]">
-                검색 날짜 :{' '}
-                {data.searchMeetings[0].meetingDate
-                  .replaceAll('-', '.')
-                  .slice(0, 10) +
-                  ' ' +
-                  data.searchMeetings[0].meetingDate.slice(11, 16)}
-              </p>
-              <p className="text-[#666666]">
-                {/* 생성자 : {data.meeting.author.name} */}
-              </p>
+      {!loading && data && !(data.searchMeetings.length === 0) ? (
+        <>
+          <div className="flex-col w-full h-fit justify-center items-center">
+            <div className=" w-full h-fit">
+              <div className="w-full  flex justify-center items-center bg-white py-5">
+                <div className="flex flex-col w-full justify-center items-center">
+                  <h1 className="text-[20px] font-bold">
+                    카테고리 :{' '}
+                    {txp.map((v: any, i: number) => {
+                      if (v.title === data.searchMeetings[0].category) {
+                        return v.name;
+                      }
+                    })}
+                  </h1>
+                  <h2 className="text-[20px] font-semibold">
+                    검색된 모임 : {data.searchMeetings.length}개
+                  </h2>
+                  <p className="text-[#666666]">
+                    검색 날짜 :{' '}
+                    {data.searchMeetings[0].meetingDate
+                      .replaceAll('-', '.')
+                      .slice(0, 10) +
+                      ' ' +
+                      data.searchMeetings[0].meetingDate.slice(11, 16)}
+                  </p>
+                  <p className="text-[#666666]">
+                    {/* 생성자 : {data.meeting.author.name} */}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div className="h-fit overflow-hidden flex flex-col justify-between">
-        <div>
-          <Map // 지도를 표시할 Container
-            center={state.center}
-            isPanto={state.isPanto}
-            style={{
-              // 지도의 크기
-              width: '100%',
-              height: '67vh',
-            }}
-            level={9} // 지도의 확대 레벨
-          >
-            {data.searchMeetings.map((v: any, i: number) => (
-              <div key={i}>
-                {/* <MarkerWithCustomOverlayStyle /> */}
-                <MapMarker
-                  position={{ lat: v.lat.toString(), lng: v.lng.toString() }}
-                />
-                <CustomOverlayMap
-                  position={{ lat: v.lat.toString(), lng: v.lng.toString() }}
-                  yAnchor={1}
-                >
-                  <div className="flex relative bottom-[45px] rounded-lg overflow-hidden">
-                    <Link
-                      href={`/meetingInfo/${v.id}`}
-                      rel="noreferrer"
-                      className="flex"
+          <div className="h-fit overflow-hidden flex flex-col justify-between">
+            <div>
+              <Map // 지도를 표시할 Container
+                center={state.center}
+                isPanto={state.isPanto}
+                style={{
+                  // 지도의 크기
+                  width: '100%',
+                  height: '67vh',
+                }}
+                level={9} // 지도의 확대 레벨
+              >
+                {data.searchMeetings.map((v: any, i: number) => (
+                  <div key={i}>
+                    {/* <MarkerWithCustomOverlayStyle /> */}
+                    <MapMarker
+                      position={{
+                        lat: v.lat.toString(),
+                        lng: v.lng.toString(),
+                      }}
+                    />
+                    <CustomOverlayMap
+                      position={{
+                        lat: v.lat.toString(),
+                        lng: v.lng.toString(),
+                      }}
+                      yAnchor={1}
                     >
-                      <div className="bg-white flex justify-center items-center pl-2 w-8">
-                        <Image
-                          src={v.author.image}
-                          alt="userProfile"
-                          width={100}
-                          height={100}
-                          className="rounded-full"
-                        />
+                      <div className="flex relative bottom-[45px] rounded-lg overflow-hidden">
+                        <Link
+                          href={`/meetingInfo/${v.id}`}
+                          rel="noreferrer"
+                          className="flex"
+                        >
+                          <div className="bg-white flex justify-center items-center pl-2 w-8">
+                            <Image
+                              src={v.author.image}
+                              alt="userProfile"
+                              width={100}
+                              height={100}
+                              className="rounded-full"
+                            />
+                          </div>
+                          <div className="flex justify-center items-center bg-white pl-2 pr-[15px] py-[10px] text-[14px] font-bold">
+                            {v.title}
+                          </div>
+                          <div className='flex bg-[#d95050] bg-[url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png")] bg-no-repeat bg-center w-6'></div>
+                        </Link>
                       </div>
-                      <div className="flex justify-center items-center bg-white pl-2 pr-[15px] py-[10px] text-[14px] font-bold">
-                        {v.title}
-                      </div>
-                      <div className='flex bg-[#d95050] bg-[url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png")] bg-no-repeat bg-center w-6'></div>
-                    </Link>
+                      <div className='absolute ml-[-12px] left-[50%] bottom-[33px] w-[22px] h-[12px] content-[" "] bg-[url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png")]'></div>
+                    </CustomOverlayMap>
                   </div>
-                  <div className='absolute ml-[-12px] left-[50%] bottom-[33px] w-[22px] h-[12px] content-[" "] bg-[url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png")]'></div>
-                </CustomOverlayMap>
-              </div>
-            ))}
-          </Map>
+                ))}
+              </Map>
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className="w-full h-full flex justify-center items-center">
+          <div className="font-semibold text-lg">검색된 모임이 없습니다.</div>
         </div>
-      </div>
+      )}
     </>
-  ) : null;
+  );
 };
 
 export default meeting2;

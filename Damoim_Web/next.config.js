@@ -32,6 +32,11 @@ const nextConfig = {
         permanent: false,
       },
       {
+        source: '/meeting2',
+        destination: '/',
+        permanent: false,
+      },
+      {
         source: '/mypage',
         destination: '/',
         permanent: false,
