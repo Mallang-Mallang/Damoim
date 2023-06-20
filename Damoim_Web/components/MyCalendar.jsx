@@ -203,8 +203,8 @@ const MyCalendar = ({ session }) => {
             전체모임
           </div>
           <Link
-            href="./add_schedule"
-            className="border border-[#43ABE5] text-[#43ABE5] w-[140px] h-10 rounded-full flex justify-center items-center font-semibold hover:cursor-pointer"
+            href="./addSchedule"
+            className="border border-[#43ABE5] text-[#43ABE5] w-[140px] h-10 rounded-full flex justify-center items-center font-semibold hover:cursor-pointer hover:bg-[#43ABE5] hover:text-white"
           >
             일정추가
           </Link>

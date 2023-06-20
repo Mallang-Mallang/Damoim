@@ -106,12 +106,12 @@ const Find2 = () => {
     // e.preventDefault();
     await createMeeting({
       variables: {
-        title: title,
-        meetingDate: meetingDate,
-        location: location,
+        title,
+        meetingDate,
+        location,
         lat: parseFloat(lat),
         lng: parseFloat(lng),
-        category: category,
+        category,
         authorEmail: session?.user?.email,
       },
     });

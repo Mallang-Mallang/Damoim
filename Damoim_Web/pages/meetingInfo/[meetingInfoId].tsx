@@ -113,7 +113,7 @@ const meetingInfoId = () => {
       });
     }
   }, [meetingId, data]);
-
+  console.log(data);
   return data ? (
     <div className="flex-col w-full h-full justify-center items-center">
       <div className=" w-full h-fit">
@@ -222,31 +222,31 @@ const meetingInfoId = () => {
       <div className="flex justify-between items-center px-5 py-3 sticky top-0 bg-[#f7f7f7] shadow-bottom-md">
         <h1 className="text-xl font-semibold">모임 참가자</h1>
 
-        {data.meeting.requests.filter(
-          (e: any) => e.requestEmail === session?.user?.email,
-        ).length === 0 && (
-          <div
-            className="rounded-full bg-[#58b7ff] text-white p-2 hover:cursor-pointer hover:bg-[#44aeff]"
-            onClick={() =>
-              requestMeeting({
-                variables: {
-                  meetingId: data?.meeting.id,
-                  requestName: session?.user?.name,
-                  requestEmail: session?.user?.email,
-                },
-              })
-            }
-          >
-            참가 요청
-          </div>
-        )}
+        {data.meeting.author.email !== session?.user?.email &&
+          data.meeting.requests.filter(
+            (e: any) => e.requestEmail === session?.user?.email,
+          ).length === 0 && (
+            <div
+              className="rounded-full bg-[#58b7ff] text-white p-2 hover:cursor-pointer hover:bg-[#44aeff]"
+              onClick={() =>
+                requestMeeting({
+                  variables: {
+                    meetingId: data?.meeting.id,
+                    requestName: session?.user?.name,
+                    requestEmail: session?.user?.email,
+                  },
+                })
+              }
+            >
+              참가 요청
+            </div>
+          )}
       </div>
       <div className="w-full flex flex-wrap justify-between divide-y">
         {data.meeting.requests.filter((e: any) => e.confirm === true).length !==
         0 ? (
           data.meeting.requests.map((v: any, i: number) => {
             if (v.confirm === true) {
-              console.log(v);
               return (
                 <div
                   key={i}

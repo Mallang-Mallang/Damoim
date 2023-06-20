@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { MapPinIcon } from '@heroicons/react/24/outline';
-import { Map, MapMarker } from 'react-kakao-maps-sdk';
+import { CustomOverlayMap, Map, MapMarker } from 'react-kakao-maps-sdk';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import useStore from '@/store/useStore';
@@ -228,16 +228,33 @@ function SearchPlace() {
             {!state.isLoading && (
               <MapMarker position={state.center}></MapMarker>
             )}
-            {markers.map((marker: any) => (
-              <MapMarker
-                key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
-                position={marker.position}
-                onClick={() => setInfo(marker)}
-              >
+            {markers.map((marker: any, i: number) => (
+              <div key={i}>
+                <MapMarker
+                  position={marker.position}
+                  onClick={() => setInfo(marker)}
+                />
                 {info && info.content === marker.content && (
-                  <div className="text-black">{marker.content}</div>
+                  // <div className="text-black border-2 border-black">
+                  //   {marker.content}
+                  // </div>
+                  <CustomOverlayMap
+                    position={{
+                      lat: marker.position.lat,
+                      lng: marker.position.lng,
+                    }}
+                    yAnchor={1}
+                  >
+                    <div className="flex relative bottom-[45px] rounded-lg overflow-hidden">
+                      <div className="flex justify-center items-center bg-white px-[15px] py-[10px] text-[14px] font-bold">
+                        {marker.content}
+                      </div>
+                      <div className='flex bg-[#d95050] bg-[url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png")] bg-no-repeat bg-center w-6'></div>
+                    </div>
+                    <div className='absolute ml-[-12px] left-[50%] bottom-[33px] w-[22px] h-[12px] content-[" "] bg-[url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png")]'></div>
+                  </CustomOverlayMap>
                 )}
-              </MapMarker>
+              </div>
             ))}
           </Map>
         </div>
