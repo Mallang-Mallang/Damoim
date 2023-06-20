@@ -5,6 +5,8 @@ import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 import { ArrowLongRightIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
+import { gql, useQuery } from '@apollo/client';
+import MyMeetingsBox from './MyMeetingsBox';
 
 const Calendar = dynamic(() => import('react-calendar'), {
   ssr: false,
@@ -29,14 +31,7 @@ const CalendarContainer = styled.div`
     display: flex;
     justify-content: space-between;
   }
-  /* .react-calendar__month-view__days__day--weekend {
-    button:nth-child(1) {
-      color: #4f94d5;
-    }
-    button:nth-child(2) {
-    }
-    color: #ff4a4a;
-  } */
+
   .react-calendar__month-view__weekdays__weekday > abbr {
     text-decoration-line: none;
   }
@@ -126,19 +121,36 @@ const CalendarContainer = styled.div`
     margin-top: 2px;
   }
 `;
+const AllMyMeetingQuery = gql`
+  query AllMyMeeting($userEmail: String!, $targetDate: String!) {
+    allMyMeeting(userEmail: $userEmail, targetDate: $targetDate) {
+      id
+      meetingDate
+    }
+  }
+`;
 
-const MyCalendar = () => {
+const MyCalendar = ({ session }) => {
   const [value, onChange] = useState();
-  const [isClicked, setIsClicked] = useState(false);
-  const [mark, setMark] = useState(['2023-04-23', '2023-04-21']);
+
+  const [mark, setMark] = useState([]);
+
+  const { loading, error, data } = useQuery(AllMyMeetingQuery, {
+    variables: {
+      userEmail: session.user.email,
+      targetDate: moment(value).format('YYYY-MM'),
+    },
+    skip: session.user.email === undefined,
+  });
 
   useEffect(() => {
     onChange(new Date());
-  }, []);
+  }, [data]);
+  console.log(data);
 
   return (
-    <div className="h-full overflow-hidden flex flex-col justify-between">
-      <div className="px-5 mt-[50px]">
+    <div className="h-full overflow-hidden flex flex-col justify-between ">
+      <div className="px-5 mt-2">
         <CalendarContainer>
           <Calendar
             onChange={onChange}
@@ -164,69 +176,7 @@ const MyCalendar = () => {
           />
         </CalendarContainer>
       </div>
-      <div
-        className={`w-full shadow-top-xl p-5 pb-0 bg-white z-10 duration-500  ${
-          isClicked
-            ? '-translate-y-80 h-[700px] mb-[-320px] overflow-scroll'
-            : 'h-[500px] overflow-hidden hover:mt-[-10px]'
-        }`}
-      >
-        <div className="flex justify-between items-center">
-          <div
-            className="font-semibold text-[30px] hover:cursor-pointer"
-            onClick={() => setIsClicked(!isClicked)}
-          >
-            전체모임
-          </div>
-          <Link
-            href="./add_schedule"
-            className="border border-[#43ABE5] text-[#43ABE5] w-[140px] h-10 rounded-full flex justify-center items-center font-semibold hover:cursor-pointer"
-          >
-            일정추가
-          </Link>
-        </div>
-        <div className="text-gray-500 my-5 flex justify-center">
-          {moment(value).format('YYYY년 MM월 DD일')}
-        </div>
-        {/* 더미 1 */}
-        <div className="border w-full h-[145px] bg-[#EAF7FF] rounded-[40px] px-5 py-11 mb-3 flex justify-between items-center text-lg">
-          <div>1:00pm</div>
-          <div className="mx-3 w-full">
-            <div className="font-semibold">스터디 모임</div>
-            <div>할리스 합정역</div>
-          </div>
-          <ArrowLongRightIcon width={30} height={30} />
-        </div>
-
-        {/* 더미 2 */}
-        <div className="border w-full h-[145px] bg-[#FFF0EA] rounded-[40px] px-5 py-11 mb-3 flex justify-between items-center text-lg">
-          <div>1:00pm</div>
-          <div className="mx-3 w-full">
-            <div className="font-semibold">스터디 모임</div>
-            <div>할리스 합정역</div>
-          </div>
-          <ArrowLongRightIcon width={30} height={30} />
-        </div>
-        {/* 더미 1 */}
-        <div className="border w-full h-[145px] bg-[#EAF7FF] rounded-[40px] px-5 py-11 mb-3 flex justify-between items-center text-lg">
-          <div>1:00pm</div>
-          <div className="mx-3 w-full">
-            <div className="font-semibold">스터디 모임</div>
-            <div>할리스 합정역</div>
-          </div>
-          <ArrowLongRightIcon width={30} height={30} />
-        </div>
-
-        {/* 더미 2 */}
-        <div className="border w-full h-[145px] bg-[#FFF0EA] rounded-[40px] px-5 py-11 mb-3 flex justify-between items-center text-lg">
-          <div>1:00pm</div>
-          <div className="mx-3 w-full">
-            <div className="font-semibold">스터디 모임</div>
-            <div>할리스 합정역</div>
-          </div>
-          <ArrowLongRightIcon width={30} height={30} />
-        </div>
-      </div>
+      <MyMeetingsBox value={value} session={session} />
     </div>
   );
 };

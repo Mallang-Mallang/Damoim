@@ -1,7 +1,33 @@
+import MyRequest from '@/components/MyRequest';
+import { gql, useQuery } from '@apollo/client';
+import { signOut, useSession } from 'next-auth/react';
 import Head from 'next/head';
+import Image from 'next/image';
 import Link from 'next/link';
 
+const MyMeetingQuery = gql`
+  query MyMeeting($userEmail: String!) {
+    myMeeting(userEmail: $userEmail) {
+      id
+      createdAt
+      title
+      category
+      location
+      meetingDate
+      author {
+        name
+      }
+    }
+  }
+`;
+
 export default function Mypage() {
+  const { data: session, status } = useSession();
+  const { loading, error, data } = useQuery(MyMeetingQuery, {
+    variables: { userEmail: session?.user?.email },
+    skip: session?.user?.email === undefined,
+  });
+
   return (
     <>
       <Head>
@@ -11,62 +37,73 @@ export default function Mypage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="px-5 h-[910px] bg-white">
-        <div className="flex justify-between items-center mb-[105px]">
-          <h1 className="text-[30px] font-semibold">나의 모임</h1>
-          <Link href="./add_schedule">
-            <div className="flex border-2 border-[#43ABE5] text-[#43ABE5] font-semibold w-[120px] h-[40px] rounded-full justify-center items-center">
-              일정 추가
-            </div>
-          </Link>
+      <div className="h-[910px] bg-white">
+        {/* 프로필 */}
+        <div className="flex justify-between items-center px-5 py-3 sticky top-0 bg-[#f7f7f7] shadow-bottom-md">
+          <h1 className="text-2xl font-semibold">프로필</h1>
         </div>
-        <div className="w-full flex flex-wrap justify-between gap-y-[10px]">
-          <Link href="">
-            <div className="w-[456px] h-[143px] bg-[#FFF0EA] rounded-[40px] p-5">
-              <div className="test-xl">11:00am</div>
-              <div className="py-[10px] font-semibold text-xl">
-                스터디 그룹 모임
-              </div>
-              <div className="test-xl">할리스 합정역점</div>
+        <div className="flex justify-between items-center mx-5 py-3">
+          <div className="flex items-center space-x-3">
+            <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
+              <Image
+                src={session?.user?.image!}
+                width={50}
+                height={50}
+                alt="profile"
+              />
             </div>
-          </Link>
-          <Link href="">
-            <div className="w-[456px] h-[143px] bg-[#EAF7FF] rounded-[40px] p-5">
-              <div className="test-xl">11:00am</div>
-              <div className="py-[10px] font-semibold text-xl">
-                스터디 그룹 모임
-              </div>
-              <div className="test-xl">할리스 합정역점</div>
+            <div>
+              <div className="font-semibold text-xl">{session?.user?.name}</div>
+              <div className="text-[#808080]">{session?.user?.email}</div>
             </div>
-          </Link>
-          <Link href="">
-            <div className="w-[456px] h-[143px] bg-[#FFF0EA] rounded-[40px] p-5">
-              <div className="test-xl">11:00am</div>
-              <div className="py-[10px] font-semibold text-xl">
-                스터디 그룹 모임
-              </div>
-              <div className="test-xl">할리스 합정역점</div>
-            </div>
-          </Link>
-          <Link href="">
-            <div className="w-[456px] h-[143px] bg-[#EAF7FF] rounded-[40px] p-5">
-              <div className="test-xl">11:00am</div>
-              <div className="py-[10px] font-semibold text-xl">
-                스터디 그룹 모임
-              </div>
-              <div className="test-xl">할리스 합정역점</div>
-            </div>
-          </Link>
-          <Link href="">
-            <div className="w-[456px] h-[143px] bg-[#FFF0EA] rounded-[40px] p-5">
-              <div className="test-xl">11:00am</div>
-              <div className="py-[10px] font-semibold text-xl">
-                스터디 그룹 모임
-              </div>
-              <div className="test-xl">할리스 합정역점</div>
-            </div>
-          </Link>
+          </div>
+          <div
+            className="rounded-full bg-[#ff5050] hover:bg-[#fe3838] text-white p-2 hover:cursor-pointer"
+            onClick={() => {
+              signOut({ callbackUrl: '/' });
+            }}
+          >
+            로그아웃
+          </div>
         </div>
+
+        {/* 나의 모임 */}
+        <div className="flex justify-between items-center px-5 py-3 sticky top-0 bg-[#f7f7f7] shadow-y-md">
+          <h1 className="text-2xl font-semibold ">나의 모임</h1>
+        </div>
+        <div className="w-full flex flex-wrap justify-between divide-y">
+          {data?.myMeeting.length !== 0 ? (
+            data?.myMeeting.map((v: any, i: number) => {
+              return (
+                <Link
+                  href={`/meetingInfo/${v.id}`}
+                  key={i}
+                  className="w-full px-5 bg-white hover:bg-[#eeeeee]"
+                >
+                  <div className="w-full h-fit flex-col justify-between items-center space-y-1 py-2">
+                    <div className="font-semibold text-lg">{v.title}</div>
+                    <div className="flex items-center gap-4 text-[#666666]">
+                      <div className="text-sm">{'위치 : ' + v.location}</div>
+                      <div className="text-sm">
+                        {'일시 : ' +
+                          v.meetingDate.replaceAll('-', '.').slice(0, 10) +
+                          ' ' +
+                          v.meetingDate.slice(11, 16)}
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })
+          ) : (
+            <div className="flex justify-center items-center w-full h-20 text-gray-500">
+              "아직 등록된 모임이 없습니다."
+            </div>
+          )}
+        </div>
+
+        {/* 나의 모임 요청 */}
+        <MyRequest session={session} />
       </div>
     </>
   );

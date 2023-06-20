@@ -41,11 +41,7 @@ const Header = ({ path }: HaederProps) => {
           </div>
           <div
             className={`duration-300 border-2 border-sky-500 ${
-              path === '/add_schedule'
-                ? 'w-1/3'
-                : path === '/find'
-                ? 'w-2/3'
-                : 'w-full'
+              path === '/add_schedule' ? 'w-1/2' : 'w-full'
             }`}
           ></div>
         </div>
@@ -63,7 +59,7 @@ const Header = ({ path }: HaederProps) => {
   };
 
   return (
-    <div className="flex w-[500px] h-[60px] justify-between items-center fixed top-0 bg-white z-20 border border-blue-500">
+    <div className="flex w-[500px] h-[60px] justify-between items-center fixed top-0 bg-white z-20 shadow-bottom-sm">
       {haederType()}
     </div>
   );
